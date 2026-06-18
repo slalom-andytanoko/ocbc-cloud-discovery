@@ -1,0 +1,40 @@
+name: Validate
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check setup.py shim is under 30 lines
+        run: |
+          lines=$(wc -l < setup.py)
+          echo "setup.py has $lines lines"
+          if [ "$lines" -ge 30 ]; then
+            echo "FAIL: setup.py shim must be under 30 lines (got $lines)"
+            exit 1
+          fi
+
+      - name: Check .env.template has no hardcoded values
+        run: |
+          result=$(grep -v "^#" .env.template | grep -v "={{" | grep -v "^$" | grep -v "^[A-Z_]*=$" | grep -v "^QMD_TRANSPORT=mcp$" | grep -v "^[A-Za-z_]*=[a-z]*$" || true)
+          if [ -n "$result" ]; then
+            echo "FAIL: .env.template has non-placeholder values:"
+            echo "$result"
+            exit 1
+          fi
+          echo "PASS: .env.template is clean"
+
+      - name: Check no setup_lib or skills directories present
+        run: |
+          for dir in setup_lib skills library hooks tests; do
+            if [ -d "$dir" ]; then
+              echo "FAIL: $dir/ should not exist in the template repo"
+              exit 1
+            fi
+          done
+          echo "PASS: no wizard/skill directories present"
