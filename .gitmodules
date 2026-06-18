@@ -4,7 +4,7 @@
 
 [submodule ".skill-repos/obsidian-wiki"]
 	path = .skill-repos/obsidian-wiki
-	url = git@github.com:Ar9av/obsidian-wiki.git
+	url = git@github.com:Ar9av/obsidian-wiki
 
 [submodule ".skill-repos/slalom-agent-kit"]
 	path = .skill-repos/slalom-agent-kit
