@@ -72,16 +72,19 @@ Skills and the setup wizard live in submodules — they can be updated on a runn
 2. Open the engagement repo in your AI agent (Kiro, Copilot, or Claude Code)
 3. Say: **"Read the setup guide and set this engagement repo up"**
 
-That's it. The agent reads [`docs/setup-guide.md`](docs/setup-guide.md) and walks you through everything — asking for credentials, running the setup wizard, and troubleshooting failures. See the setup guide for the full step-by-step, manual instructions, MCP configuration, and troubleshooting.
+That's it. The agent reads [`docs/setup-guide.md`](docs/setup-guide.md) and walks you through everything — asking for credentials, running the setup wizard, and troubleshooting failures. See the [setup guide](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/setup-guide.md) for the full step-by-step, manual instructions, MCP configuration, and troubleshooting.
 
 ## Documentation
 
-| Guide | Description |
-|-------|-------------|
-| [Setup Guide](docs/setup-guide.md) | Step-by-step installation, SSH multi-key config, MCP credentials, troubleshooting |
-| [Skill Catalogue](docs/skill-catalogue.md) | Every installed skill: name, description, invocation example |
-| [Vault Categories](docs/vault-categories.md) | Directory tree with purpose annotations and example filenames |
-| [First 30 Minutes](docs/first-30-minutes.md) | Guided walkthrough: verify setup → ingest a doc → run gap-analysis → generate a deliverable |
+> **After running `python setup.py`**, full guides are available locally at `.skill-repos/slalom-discovery-kit/docs/`.
+> Browse them on GitHub: [slalom-discovery-kit/docs →](https://github.com/Slalom/slalom-discovery-kit/tree/main/docs)
+
+| Guide | Local path (after setup) | GitHub |
+|-------|--------------------------|--------|
+| Setup Guide | `docs/setup-guide.md` | [view](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/setup-guide.md) |
+| Skill Catalogue | `.skill-repos/slalom-discovery-kit/docs/skill-catalogue.md` | [view](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/skill-catalogue.md) |
+| Vault Categories | `.skill-repos/slalom-discovery-kit/docs/vault-categories.md` | [view](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/vault-categories.md) |
+| First 30 Minutes | `.skill-repos/slalom-discovery-kit/docs/first-30-minutes.md` | [view](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/first-30-minutes.md) |
 
 ## Contributing
 
