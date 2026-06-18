@@ -1,3 +1,11 @@
 [submodule ".skill-repos/slalom-discovery-kit"]
 	path = .skill-repos/slalom-discovery-kit
 	url = /Users/prashant.srivastava/projects/blackmores/slalom-discovery-kit
+
+[submodule ".skill-repos/obsidian-wiki"]
+	path = .skill-repos/obsidian-wiki
+	url = git@github.com:Ar9av/obsidian-wiki.git
+
+[submodule ".skill-repos/slalom-agent-kit"]
+	path = .skill-repos/slalom-agent-kit
+	url = git@github.com:Slalom/slalom-agent-kit.git
