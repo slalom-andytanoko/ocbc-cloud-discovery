@@ -29,17 +29,16 @@ Every source gets distilled into the wiki first — nothing goes directly to a d
 
 ## What You Get
 
+- **Principal consultant thinking built in** — use `/project-context` to customise the toolkit to your engagement. It acts as a principal consultant to build a shared understanding of the project: workloads, drivers, maturity, timeline, stakeholders, and known risks — then uses that context to calibrate every gap analysis and deliverable automatically
+- **Stakeholder map that builds itself** — session transcripts are automatically mined for speaker names, roles, and speaking patterns. By session 3, your agent knows who pushes back on security findings, who asks about cost, and who defers to technical leads
 - **Multi-source ingestion** — pull from Confluence (`ingest-confluence`), session transcripts (`ingest-session`), IaC repos (`ingest-iac`), and live AWS accounts (`ingest-aws`) into a single structured knowledge base
-- **Session preparation** — query the wiki before every stakeholder session to surface gaps, generate question lists, and brief the team on what's already known vs what still needs confirming
-- **Gap detection and open questions** — the `gap-analysis` skill compares wiki knowledge against best-practice checklists; open questions are tracked in `open-questions.md` and surfaced automatically during session prep
+- **Gap analysis with depth** — the `gap-analysis` skill runs a broad Well-Architected assessment and, when AWS or security packs are installed, automatically invokes focused deep-dives for Landing Zone, IaC, and security posture
 - **Traceable wiki** — every page has a `source:` field; every claim links back to the Confluence page, session timestamp, or IaC file that supports it
-- **Team input as first-class data** — consultant corrections and stakeholder confirmations in `docs/team-input.md` override automated analysis when generating deliverables
-- **One-command deliverables** — generate findings register, remediation backlog, RAID log, roadmap, and Confluence-ready pages from the accumulated wiki knowledge
-- **Multi-destination publish** — push to Confluence (`publish-confluence`), export to PowerPoint, or output structured Markdown for any downstream tool
-- **Discovery skills** — gap analysis, Well-Architected review, session facilitation, stakeholder mapping, and more, installed directly into your agent framework
-- **Multi-agent support** — generates native config for Kiro (`.kiro/skills/`), GitHub Copilot (`.github/copilot-instructions.md`), Claude Code (`CLAUDE.md`), and Codex CLI (`AGENTS.md` + `.codex/`)
-- **Interactive setup wizard** — `python setup.py` collects client details, wires submodules, configures agent frameworks, and generates every config file automatically
-- **Managed skill updates** — skill packs are git submodules; run `git submodule update --remote` to pull improvements from any engagement back into yours
+- **Team input as first-class data** — consultant corrections and stakeholder confirmations override automated analysis when generating deliverables
+- **One-command deliverables** — generate findings register, remediation backlog, RAID log, roadmap, and Confluence-ready pages from the accumulated wiki knowledge; presentations are generated as Slalom-branded `.pptx` using the `slalom-pptx` skill with reusable cool-slides shape patterns
+- **Multi-agent support** — generates native config for Kiro, GitHub Copilot, Claude Code, and Codex CLI
+- **Agent-driven setup** — open the repo in your AI agent and say "set this up"; the agent reads the setup guide, runs `python setup.py` on your behalf, asks for credentials interactively, and troubleshoots failures without you touching the terminal
+- **Extensible skill system** — add your own skill submodule to `.skill-repos/` and it's picked up automatically on next refresh; improvements to central skills in `slalom-discovery-kit` flow to all engagement repos via `git submodule update --remote`
 
 ## Prerequisites
 
