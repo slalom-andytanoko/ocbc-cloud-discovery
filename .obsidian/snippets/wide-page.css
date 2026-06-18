@@ -1,0 +1,12 @@
+/* Global: make all pages wider */
+.markdown-reading-view .markdown-preview-sizer,
+.markdown-source-view .cm-sizer {
+  max-width: 95% !important;
+}
+
+/* Make tables scroll horizontally if they overflow */
+table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}

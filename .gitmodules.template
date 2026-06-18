@@ -1,0 +1,16 @@
+[submodule ".skill-repos/slalom-discovery-kit"]
+    path = .skill-repos/slalom-discovery-kit
+    url = {{DISCOVERY_KIT_REPO_URL}}
+
+[submodule ".skill-repos/obsidian-wiki"]
+    path = .skill-repos/obsidian-wiki
+    url = {{OBSIDIAN_WIKI_REPO_URL}}
+
+[submodule ".skill-repos/slalom-agent-kit"]
+    path = .skill-repos/slalom-agent-kit
+    url = {{SLALOM_AGENT_KIT_REPO_URL}}
+
+# Client IaC repositories — populated by setup wizard
+# [submodule "docs/repos/client-iac"]
+#     path = docs/repos/client-iac
+#     url = {{CLIENT_IAC_REPO_URL}}

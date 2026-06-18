@@ -1,0 +1,79 @@
+# ============================================================
+# Estimation Configuration — Project-specific knobs
+# ============================================================
+#
+# This file controls how backlog item effort is calculated.
+# Adjust any value and run `/deliverables estimate` to recalculate
+# all items and update the phase summary in backlog/index.md.
+#
+# Formula per item:
+#   effort_days = base_days[tshirt] × work_type_multipliers[work_type] × complexity_uplift
+#   effort_days_ai = effort_days × (1 - ai_acceleration[ai_enablement])
+#   complexity_uplift = 1 + (complexity_uplift_per_factor × number_of_factors)
+#
+# Summary totals:
+#   total = sum(effort_days) × buffer
+#   total_ai = sum(effort_days_ai) × buffer
+# ============================================================
+
+# --- GLOBAL BUFFER ---
+# Applied to phase/grand totals only (not per-item).
+# 1.0 = raw estimate (no margin)
+# 1.3 = 30% margin (standard for well-scoped work)
+# 1.5 = 50% margin (unknowns, new vendor, first engagement)
+buffer: 1.3
+
+# --- BASE DAYS ---
+# Starting implementation days for each T-shirt size.
+# This is the "ideal case" for a single person doing the work.
+base_days:
+  XS: 0.5
+  S: 1
+  M: 2
+  L: 4
+  XL: 8
+
+# --- WORK TYPE MULTIPLIERS ---
+# Scales base_days based on the nature of the implementation work.
+work_type_multipliers:
+  docs: 1.0
+  config: 1.0
+  iac: 1.5
+  architecture: 1.5
+  coordination: 2.0
+
+# --- COMPLEXITY UPLIFT ---
+# Each complexity factor adds this percentage to the estimate.
+# e.g., 0.2 means each factor adds 20%.
+# Recognised factors:
+#   - Stakeholder_Involvement
+#   - External_Dependency
+#   - Consensus_Required
+complexity_uplift_per_factor: 0.2
+
+# --- AI ACCELERATION ---
+# Percentage reduction in effort when AI tooling is used.
+# Rating 1-5 maps to acceleration percentage.
+ai_acceleration:
+  1: 0.0
+  2: 0.15
+  3: 0.30
+  4: 0.50
+  5: 0.70
+
+# --- PHASE ASSIGNMENTS ---
+# Maps backlog item IDs to implementation phases.
+# Populate during discovery as items are identified and prioritised.
+#
+# Example:
+#   phases:
+#     phase_1:
+#       label: "Phase 1 — Critical Path (~3 weeks)"
+#       items: [SEC1, NET2, OPS3]
+#     phase_2:
+#       label: "Phase 2 — Hardening (~4 weeks)"
+#       items: [SEC5, OPS8]
+#     phase_3:
+#       label: "Phase 3 — Continuous Improvement"
+#       items: [GOV1, COST1]
+phases: {}

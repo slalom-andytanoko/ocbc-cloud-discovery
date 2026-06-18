@@ -1,0 +1,22 @@
+# Environment (contains local paths)
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Obsidian workspace (user-specific)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+external/
+
+**/~$*.pptx
+**/~$*.docx
+
+# Kiro / Claude local settings (contain API keys and personal config)
+.kiro/settings/mcp.json
+.claude/settings.json
+
+# Generated pack config (runtime artefact, not committed)
+_meta/active-pack-config/

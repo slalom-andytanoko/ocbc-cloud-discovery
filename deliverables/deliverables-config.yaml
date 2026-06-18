@@ -1,0 +1,69 @@
+# ============================================================
+# Deliverables Pipeline Configuration
+# ============================================================
+#
+# Declares which artefact types are active for this engagement.
+# The discovery-deliverables skill reads this file to determine
+# what to generate. The skill itself owns the knowledge of what
+# each artefact type contains (structure, sections, schemas).
+#
+# Modes:
+#   direct  — the skill generates the output directly from wiki knowledge
+#   script  — the skill generates/updates a Python script that produces binary output
+#
+# Set enabled: false to skip an artefact type during generation.
+# ============================================================
+
+artefacts:
+  - type: findings-register
+    enabled: true
+    output_path: findings.md
+    mode: direct
+
+  - type: remediation-backlog
+    enabled: true
+    output_path: backlog/
+    mode: direct
+
+  - type: raid-log
+    enabled: true
+    output_path: raid.md
+    mode: direct
+
+  - type: current-state-summary
+    enabled: true
+    output_path: current-state-summary.md
+    mode: direct
+
+  - type: recommendations
+    enabled: true
+    output_path: recommendations.md
+    mode: direct
+
+  - type: gap-analysis
+    enabled: true
+    output_path: gap-analysis-full.md
+    mode: direct
+
+  - type: workbook
+    enabled: true
+    output_path: backlog-workbook.xlsx
+    mode: script
+    generator: generate-backlog-workbook.py
+
+  - type: presentation
+    enabled: true
+    output_path: discovery-assessment.pptx
+    mode: script
+    generator: generate-assessment-presentation.py
+
+  - type: exec-summary
+    enabled: true
+    output_path: exec-summary.pptx
+    mode: script
+    generator: generate-exec-summary.py
+
+  - type: confluence-staging
+    enabled: false
+    output_path: confluence-staging/
+    mode: direct
