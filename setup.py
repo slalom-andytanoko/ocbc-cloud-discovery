@@ -11,7 +11,7 @@ def main() -> None:
     if not WIZARD.exists():
         print("Initialising submodules...")
         subprocess.run(
-            ["git", "submodule", "update", "--init", "--recursive"],
+            ["git", "-c", "protocol.file.allow=always", "submodule", "update", "--init", "--recursive"],
             cwd=REPO_ROOT, check=True,
         )
     result = subprocess.run(
