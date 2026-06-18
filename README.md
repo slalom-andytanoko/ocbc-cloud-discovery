@@ -76,15 +76,14 @@ That's it. The agent reads [`docs/setup-guide.md`](docs/setup-guide.md) and walk
 
 ## Documentation
 
-> **After running `python setup.py`**, full guides are available locally at `.skill-repos/slalom-discovery-kit/docs/`.
-> Browse them on GitHub: [slalom-discovery-kit/docs →](https://github.com/Slalom/slalom-discovery-kit/tree/main/docs)
+> **After running `python setup.py`**, full guides are available at `.skill-repos/slalom-discovery-kit/docs/`.
 
-| Guide | Local path (after setup) | GitHub |
-|-------|--------------------------|--------|
-| Setup Guide | `docs/setup-guide.md` | [view](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/setup-guide.md) |
-| Skill Catalogue | `.skill-repos/slalom-discovery-kit/docs/skill-catalogue.md` | [view](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/skill-catalogue.md) |
-| Vault Categories | `.skill-repos/slalom-discovery-kit/docs/vault-categories.md` | [view](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/vault-categories.md) |
-| First 30 Minutes | `.skill-repos/slalom-discovery-kit/docs/first-30-minutes.md` | [view](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/first-30-minutes.md) |
+| Guide | Description | On GitHub |
+|-------|-------------|-----------|
+| [Setup Guide](docs/setup-guide.md) | Step-by-step installation, MCP credentials, troubleshooting | [![](https://img.shields.io/badge/-GitHub-181717?logo=github&logoColor=white)](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/setup-guide.md) |
+| [Skill Catalogue](.skill-repos/slalom-discovery-kit/docs/skill-catalogue.md) | Every installed skill with invocation examples | [![](https://img.shields.io/badge/-GitHub-181717?logo=github&logoColor=white)](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/skill-catalogue.md) |
+| [Vault Categories](.skill-repos/slalom-discovery-kit/docs/vault-categories.md) | What goes in each wiki directory | [![](https://img.shields.io/badge/-GitHub-181717?logo=github&logoColor=white)](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/vault-categories.md) |
+| [First 30 Minutes](.skill-repos/slalom-discovery-kit/docs/first-30-minutes.md) | Guided walkthrough: ingest → gap-analysis → deliverable | [![](https://img.shields.io/badge/-GitHub-181717?logo=github&logoColor=white)](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/first-30-minutes.md) |
 
 ## Contributing
 
