@@ -38,7 +38,7 @@ Every source gets distilled into the wiki first — nothing goes directly to a d
 - **One-command deliverables** — generate findings register, remediation backlog, RAID log, roadmap, and Confluence-ready pages from the accumulated wiki knowledge; presentations are generated as Slalom-branded `.pptx` using the `slalom-pptx` skill with reusable cool-slides shape patterns
 - **Multi-agent support** — generates native config for Kiro, GitHub Copilot, Claude Code, and Codex CLI
 - **Agent-driven setup** — open the repo in your AI agent and say "set this up"; the agent reads the setup guide, runs `python setup.py` on your behalf, asks for credentials interactively, and troubleshoots failures without you touching the terminal
-- **Extensible skill system** — add your own skill submodule to `.skill-repos/` and it's picked up automatically on next refresh; improvements to central skills in `slalom-discovery-kit` flow to all engagement repos via `git submodule update --remote`
+- **Extensible skill system** — add your own skill submodule to `.skill-repos/`, declare it in `.skill-repos/custom-skill-library.yaml`, and its skills are installed on the next `--refresh`; improvements to central skills in `slalom-discovery-kit` flow to all engagement repos via `git submodule update --remote`
 
 ## Prerequisites
 

@@ -1,0 +1,63 @@
+# custom-skill-library.yaml
+#
+# Use this file to declare skills from any custom submodules you've added
+# to .skill-repos/. This is the engagement-specific companion to the central
+# library/index.yaml (which is maintained by slalom-discovery-kit).
+#
+# When you run `python setup.py` or `python setup.py --refresh`, the installer
+# reads both files and installs skills from all declared packs.
+#
+# ─── How to add a custom submodule ───────────────────────────────────────────
+#
+# 1. Add the submodule:
+#      git submodule add git@github.com:your-team/your-skills.git .skill-repos/your-skills
+#
+# 2. Declare its skills below, then run:
+#      python setup.py --refresh
+#
+# ─── Pack schema ─────────────────────────────────────────────────────────────
+#
+# packs:
+#   - id: <unique-id>               # used internally, not shown to users
+#     name: "<human name>"          # optional, for display purposes
+#     source: .skill-repos/<name>/  # path to the submodule root (or subdirectory)
+#     skills:
+#       - skill-name                # direct child of source dir containing SKILL.md
+#       - subdir/skills/skill-name  # or a relative path for nested layouts
+#
+# Set skills to "all" to install every SKILL.md directory found directly under source:
+#     skills: all
+#
+# For framework-aware repos (e.g. those with .kiro/, .claude/ directories per framework):
+#     source: .skill-repos/<name>/{AGENT_FRAMEWORK}
+#     skills: all
+#
+# ─── Examples ────────────────────────────────────────────────────────────────
+#
+# # Install all skills from a simple flat layout:
+# packs:
+#   - id: my-team-skills
+#     source: .skill-repos/my-team-skills/
+#     skills: all
+#
+# # Install specific skills from a plugin-style layout:
+# packs:
+#   - id: my-plugins
+#     source: .skill-repos/my-plugin-kit/
+#     skills:
+#       - plugins/my-assessment/skills/my-assessment
+#
+# # Install from a framework-aware repo (has .kiro/, .claude/ etc.):
+# packs:
+#   - id: my-wiki-skills
+#     source: .skill-repos/my-wiki/{AGENT_FRAMEWORK}
+#     skills: all
+#
+# ─── Your custom packs ───────────────────────────────────────────────────────
+#
+# Uncomment and edit below to add your custom packs:
+#
+# packs:
+#   - id: example
+#     source: .skill-repos/example/
+#     skills: all
