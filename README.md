@@ -8,7 +8,7 @@
 
 **Pull information from anywhere. Push findings everywhere. Keep every claim traceable.**
 
-Discovery engagements are information-heavy and time-compressed. Evidence is scattered across Confluence pages, IaC repositories, live AWS accounts, session transcripts, and stakeholder conversations. Deliverables — findings registers, remediation backlogs, implementation roadmaps — need to reflect all of it accurately and stay consistent as the picture evolves.
+Discovery engagements are information-heavy and time-compressed. Evidence is scattered across Confluence pages, IaC repositories, live cloud accounts (AWS, Azure, GCP), session transcripts, and stakeholder conversations. Deliverables — findings registers, remediation backlogs, implementation roadmaps — need to reflect all of it accurately and stay consistent as the picture evolves.
 
 The Discovery Toolkit is an AI-powered engagement scaffold that makes this seamless:
 
@@ -18,7 +18,7 @@ Sources                    Wiki (Knowledge Base)               Destinations
 Confluence pages      ──►  Concepts  — domain knowledge   ──►  Findings register
 Session transcripts   ──►  Entities  — accounts, systems  ──►  Remediation backlog
 IaC repositories      ──►  Synthesis — gap analyses       ──►  RAID log
-Live AWS accounts     ──►  Reference — standards, docs    ──►  Implementation roadmap
+Live cloud accounts   ──►  Reference — standards, docs    ──►  Implementation roadmap
 Team commentary       ──►  Questions — open items         ──►  Confluence publish
 Jira tickets          ──►  Journal   — session prep notes ──►  Presentation deck
 ```
@@ -33,7 +33,7 @@ Every source gets distilled into the wiki first — nothing goes directly to a d
 
 - **[Principal consultant thinking built in](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/cheatsheet.md#engagement-start)** — use `/project-context` to customise the toolkit to your engagement. It acts as a principal consultant to build a shared understanding of the project: workloads, drivers, maturity, timeline, stakeholders, and known risks — then uses that context to calibrate every gap analysis and deliverable automatically
 - **[Stakeholder map that builds itself](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/cheatsheet.md#ingesting-sources)** — session transcripts are automatically mined for speaker names, roles, and speaking patterns. By session 3, your agent knows who pushes back on security findings, who asks about cost, and who defers to technical leads
-- **[Multi-source ingestion](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/skills.md#core-discovery)** — pull from Confluence (`ingest-confluence`), session transcripts (`ingest-session`), IaC repos (`ingest-iac`), and live AWS accounts (`ingest-aws`) into a single structured knowledge base
+- **[Multi-source ingestion](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/skills.md#core-discovery)** — pull from Confluence (`ingest-confluence`), session transcripts (`ingest-session`), IaC repos (`ingest-iac`), and live cloud accounts (`ingest-aws`, `ingest-azure`, `ingest-gcp`) into a single structured knowledge base
 - **[Gap analysis with depth](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/skills.md#optional-packs)** — the `gap-analysis` skill runs a broad assessment and, when cloud-specific packs are installed (AWS, Azure, or GCP), automatically invokes focused deep-dives for Landing Zone, Org Policy, IAM, networking, security, and IaC posture
 - **[Traceable wiki](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/concepts.md)** — every page has a `source:` field; every claim links back to the Confluence page, session timestamp, or IaC file that supports it
 - **[Stakeholder feedback loop](https://github.com/Slalom/slalom-discovery-kit/blob/main/docs/skills.md#core-discovery)** — after publishing deliverables to Confluence, use `review-feedback` to fetch stakeholder comments, analyse them in context, and resolve or action them without leaving your agent
