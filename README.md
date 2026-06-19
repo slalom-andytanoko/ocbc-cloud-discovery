@@ -1,8 +1,8 @@
-![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue) ![Proprietary](https://img.shields.io/badge/license-Slalom%20Proprietary-red)
+![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white) ![Proprietary](https://img.shields.io/badge/license-Slalom%20Proprietary-red)
 
-[![Kiro](https://img.shields.io/badge/agent-Kiro-6B4FBB?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PC9zdmc+)](https://kiro.dev) [![GitHub Copilot](https://img.shields.io/badge/agent-GitHub%20Copilot-238636?logo=github)](https://github.com/features/copilot) [![Claude Code](https://img.shields.io/badge/agent-Claude%20Code-D97706?logo=anthropic)](https://claude.ai/code) [![Codex CLI](https://img.shields.io/badge/agent-Codex%20CLI-412991?logo=openai)](https://github.com/openai/codex)
+[![Kiro](https://img.shields.io/badge/agent-Kiro-6B4FBB)](https://kiro.dev) [![GitHub Copilot](https://img.shields.io/badge/agent-GitHub%20Copilot-238636?logo=github)](https://github.com/features/copilot) [![Claude Code](https://img.shields.io/badge/agent-Claude%20Code-D97706?logo=anthropic)](https://claude.ai/code) [![Codex CLI](https://img.shields.io/badge/agent-Codex%20CLI-412991?logo=openai)](https://github.com/openai/codex)
 
-[![AWS](https://img.shields.io/badge/cloud-AWS-FF9900?logo=amazonwebservices)](https://aws.amazon.com) [![Azure](https://img.shields.io/badge/cloud-Azure-0078D4?logo=microsoftazure)](https://azure.microsoft.com) [![GCP](https://img.shields.io/badge/cloud-GCP-4285F4?logo=googlecloud)](https://cloud.google.com)
+[![AWS](https://img.shields.io/badge/cloud-AWS-232F3E)](https://aws.amazon.com) [![Azure](https://img.shields.io/badge/cloud-Azure-0078D4)](https://azure.microsoft.com) [![GCP](https://img.shields.io/badge/cloud-GCP-4285F4?logo=googlecloud&logoColor=white)](https://cloud.google.com)
 
 # Discovery Toolkit
 
