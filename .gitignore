@@ -10,6 +10,7 @@ Thumbs.db
 .obsidian/workspace-mobile.json
 
 external/
+.processed/
 
 **/~$*.pptx
 **/~$*.docx

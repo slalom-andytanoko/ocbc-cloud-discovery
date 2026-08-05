@@ -1,11 +1,16 @@
 [submodule ".skill-repos/slalom-discovery-kit"]
-	path = .skill-repos/slalom-discovery-kit
-	url = git@github.com:Slalom/slalom-discovery-kit.git
+    path = .skill-repos/slalom-discovery-kit
+    url = git@github.com:Slalom/slalom-discovery-kit.git
 
 [submodule ".skill-repos/obsidian-wiki"]
-	path = .skill-repos/obsidian-wiki
-	url = git@github.com:Ar9av/obsidian-wiki
+    path = .skill-repos/obsidian-wiki
+    url = git@github.com:Ar9av/obsidian-wiki
 
 [submodule ".skill-repos/slalom-agent-kit"]
-	path = .skill-repos/slalom-agent-kit
-	url = git@github.com:Slalom/slalom-agent-kit.git
+    path = .skill-repos/slalom-agent-kit
+    url = git@github.com:Slalom/slalom-agent-kit.git
+
+# Client IaC repositories — populated by setup wizard
+# [submodule "docs/repos/client-iac"]
+#     path = docs/repos/client-iac
+#     url = {{CLIENT_IAC_REPO_URL}}
