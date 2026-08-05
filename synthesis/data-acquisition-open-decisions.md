@@ -7,18 +7,18 @@ relationships:
     type: related_to
   - target: "[[reference/data-acquisition-platform-v1.1]]"
     type: extends
-sources: ["External: Mar 11 _Data-Acquisition-Service-LLD-NarrativeV1.0[63].pdf", "External: OCBC Data Acquisition Platform on AWS - v1.1.pdf", "External: OCBC Data Acquisition Platform on AWS - v1.2.md", "External: OCBC Data Acquisition Platform on AWS - v1.3.md", "External: OCBC Data Acquisition - Cloud Sync User Stories.md", "External: Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync Detailed Design.md"]
-summary: OCBC's internal alignment matrix (11 items, 9 Mar 2026) plus v1.1/v1.2/v1.3 design-decision evolution; Temporal-based orchestration in v1.1 is superseded by the in-service orchestration run driver in v1.2, v1.3 defers two validators (schema drift, ownership check) to the backlog while resolving the Control-M scheduler-contract question via a new Scheduler Job Adapter, and the 2026-08-03 Detailed Design closes D03 with a 15-item decision register (DD-01–DD-15) and resolves Q-15 (post-landing decompression ownership).
+sources: ["External: Mar 11 _Data-Acquisition-Service-LLD-NarrativeV1.0[63].pdf", "External: OCBC Data Acquisition Platform on AWS - v1.1.pdf", "External: OCBC Data Acquisition Platform on AWS - v1.2.md", "External: OCBC Data Acquisition Platform on AWS - v1.3.md", "External: OCBC Data Acquisition Platform on AWS.md", "External: OCBC Data Acquisition - Cloud Sync User Stories.md", "External: Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync Detailed Design.md", "External: OCBC Data Acquisition - Cloud Sync Detailed Design.md"]
+summary: OCBC's internal alignment matrix (11 items, 9 Mar 2026) plus v1.1–v1.5 design-decision evolution; Temporal-based orchestration in v1.1 is superseded by the in-service orchestration run driver in v1.2, v1.3 defers two validators (schema drift, ownership check) to the backlog while resolving the Control-M scheduler-contract question via a new Scheduler Job Adapter, v1.4 adds D27 (one CMK per AWS account) and A18 (Diamond Zone per-application buckets), and the 2026-08-05 gap-analysis reconciliation (v1.5 + companion Detailed Design update) closes the pull/push parameter handoff: DECOMPRESSING promoted to an audited state, Trigger Lambda/manifest-based run correlation, and the push-path compression contradiction removed.
 provenance:
   extracted: 0.9
   inferred: 0.1
   ambiguous: 0.0
 base_confidence: 0.7
 lifecycle: draft
-lifecycle_changed: 2026-08-03
+lifecycle_changed: 2026-08-05
 tier: core
 created: 2026-07-27
-updated: 2026-08-03
+updated: 2026-08-05
 ---
 
 # Data Acquisition — Open Decisions (Alignment Matrix)
@@ -57,6 +57,7 @@ v1.1 numbers every architectural decision. The full text of each is in the sourc
 | D21 | On-prem DAL must keep operating during an AWS/Direct Connect outage — pull-mode holds/resumes at the `SECURED` checkpoint; push-mode fails fast | [[concepts/temporal-io-workflow-orchestration]], [[concepts/sync-push-service-architecture]] |
 | D22 | CyberArk Vault, accessed via Conjur, is the runtime secrets-resolution mechanism | [[concepts/dal-security-authentication-and-secrets]] |
 | D24 | A dedicated Sync Push Service (not the Orchestration Service) serves the synchronous-push mode, with no workflow engine | [[concepts/sync-push-service-architecture]] |
+| D27 | **(v1.4)** One customer-managed KMS key per AWS account (BYOK), not one per source system; `source_governance` drops its per-source KMS key field, segregation rests on prefix/bucket + IAM | [[concepts/kms-byok-key-management]] |
 
 ## Detailed Design Decisions (DD-01–DD-15, 2026-08-03) — D03 Closed
 
@@ -91,6 +92,13 @@ v1.1 numbers every architectural decision. The full text of each is in the sourc
   - **BL-005 — Schema change detection (CS-013).** Specified in the validation chain design but not built this release.
   - **BL-006 — Data owner verification (CS-057).** When eventually adopted, WARN-only and outside the validation chain's critical path.
 - **New Epic G (business-date resolution)** added to the companion user-stories baseline (v0.5): special date values (`CURRENT_DATE`, `PREVIOUS_MONTH_END_DATE`, etc.) resolved against a system-wide anchor date and per-country business calendars — see [[reference/cloud-sync-user-stories]].
+
+## v1.4/v1.5 Updates (4–5 Aug 2026)
+
+- **D27 — One CMK per AWS account (BYOK).** Confirmed with the customer: each DAL account holds a single customer-managed key for landed data, replacing the earlier per-source-key model. See [[concepts/kms-byok-key-management]] (superseded note added).
+- **A18 — Diamond Zone per-application buckets.** Diamond Zone S3 buckets are per application; cross-account replication delivers landed data from the DAL account to the AI-Factory accounts.
+- **Allowlisted source system IDs and caller-supplied-path pipeline mode** added to the Source Registry (§11.1) — see [[concepts/source-registry-and-audit-data-model]].
+- **2026-08-05 gap-analysis reconciliation** (platform v1.5 + companion [[reference/data-acquisition-cloud-sync-detailed-design]] update, no scope change): the collapsed `STAGED` state is split into `VALIDATED`/`COMPRESSED`; `DECOMPRESSING` is promoted to an audited run state with a two-phase (`TRANSFER`/`DECOMPRESSION`) transfer-complete callback; the Trigger Lambda resolves its DataSync task from the transfer event's `source_id`; cloud-side run correlation is done via the landed `_manifest.json` rather than any on-premises store; and the push-path's stale "compress on the stream" text (contradicting DD-15) is removed. Full distillation: [[reference/data-acquisition-platform-v1.5]].
 
 ## Outstanding Questions Still Open in v1.1 (§16)
 
@@ -127,6 +135,7 @@ Several of these are direct inputs to gap-analysis and backlog work already trac
 - [[concepts/dal-security-authentication-and-secrets]]
 - [[reference/data-acquisition-platform-v1.1]]
 - [[reference/data-acquisition-platform-v1.3]]
+- [[reference/data-acquisition-platform-v1.5]]
 - [[reference/cloud-sync-user-stories]]
 - [[reference/data-acquisition-cloud-sync-detailed-design]]
 
@@ -136,4 +145,6 @@ Several of these are direct inputs to gap-analysis and backlog work already trac
 - External: OCBC Data Acquisition Platform on AWS - v1.1.pdf
 - External: OCBC Data Acquisition - Cloud Sync User Stories.md
 - External: OCBC Data Acquisition Platform on AWS - v1.3.md
+- External: OCBC Data Acquisition Platform on AWS.md
 - External: Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync Detailed Design.md
+- External: OCBC Data Acquisition - Cloud Sync Detailed Design.md

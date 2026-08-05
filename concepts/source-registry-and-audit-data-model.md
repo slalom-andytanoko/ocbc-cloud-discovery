@@ -7,18 +7,18 @@ relationships:
     type: extends
   - target: "[[concepts/data-onboarding-orchestration-pipeline]]"
     type: related_to
-sources: ["External: OCBC Data Acquisition Platform on AWS - v1.1.pdf", "External: uc1_scheduled_db_poll_narrative.docx", "External: OCBC Data Acquisition Platform on AWS - v1.3.md"]
-summary: The three logical stores behind the DAL — the Source Registry (config), the Orchestration Audit table (run state, now also carrying the run driver's scheduling columns), and the source-owned read-only control data (polled for relational-source readiness only, as of v1.3) — plus the per-batch manifest contract.
+sources: ["External: OCBC Data Acquisition Platform on AWS - v1.1.pdf", "External: uc1_scheduled_db_poll_narrative.docx", "External: OCBC Data Acquisition Platform on AWS - v1.3.md", "External: OCBC Data Acquisition Platform on AWS.md", "External: OCBC Data Acquisition - Cloud Sync User Stories.md"]
+summary: The three logical stores behind the DAL — the Source Registry (config, now with a pipeline_mode discriminator and allowlisted source_system_id gate), the Orchestration Audit table (run state, now carrying source_path for caller-supplied-path runs), and the source-owned read-only control data — plus the per-batch manifest contract.
 provenance:
   extracted: 0.9
   inferred: 0.1
   ambiguous: 0.0
 base_confidence: 0.74
 lifecycle: draft
-lifecycle_changed: 2026-07-31
+lifecycle_changed: 2026-08-05
 tier: core
 created: 2026-07-28
-updated: 2026-07-31
+updated: 2026-08-05
 ---
 
 # Source Registry and Audit Data Model (DAL)
@@ -26,6 +26,8 @@ updated: 2026-07-31
 > **Design maturity note:** this schema is explicitly marked *indicative* in v1.1/v1.3 (D03) — subject to change once a dedicated microservice-decomposition requirements session is held and signed off.
 
 > **Update (v1.3, 31 Jul 2026):** file/object sources no longer have a DAL-side readiness poll — `source_file_watch_config` is removed, since those sources have no file-marker/completion signal and readiness is now the Control-M job dependency itself (see [[concepts/data-onboarding-orchestration-pipeline]]). `source_readiness_check` (relational sources only) is rewritten to be source-agnostic: a parameterised readiness query plus an expected ready value, with no fixed control-table shape assumed. The Orchestration Audit table now also carries the run driver's own scheduling-state columns. Each file/object pipeline entry names exactly **one** file or object — pattern-based multi-file matching is removed.
+
+> **Update (v1.4/v1.5, 2026-08-04/05):** `source_pipeline` gains a **`pipeline_mode`** discriminator — `REGISTERED_ITEM` (the existing named-file/object model above) or `CALLER_SUPPLIED_PATH` (the caller supplies the file path at invocation time; file-transfer/object-storage protocols only, relational sources excluded per D13) — backed by a new extension table **`source_caller_path_config`** (CS-065–CS-067). The Orchestration Audit table gains a **`source_path`** column recording the caller-supplied path per run, with **extended deduplication** covering `(pipeline_id, batch_date, source_path)` for scheduled runs on this mode. Onboarding now validates `source_system_id` against a **platform-maintained allowlist** (fail-closed — only pre-approved system IDs can be registered, CS-069). `source_governance` **drops its per-source KMS key field** (D27 — see [[concepts/kms-byok-key-management]]): segregation between sources/applications now rests on S3 prefix/bucket + IAM, not per-source key scoping.
 
 The DAL persists three logical stores, plus the source's own control data (relational sources only):
 
@@ -51,8 +53,11 @@ The registry uses a core `source`/`source_pipeline` model with trigger-specific 
 | `source_transfer_config` | DataSync task ARN, source/destination location ARNs, target tier/bucket/prefix, and (v1.3) the **landed prefix template** for the batch's objects (pull only) — configuration rather than a constant, since the landed layout is a contract with consuming applications |
 | `source_extraction_table` | RDBMS extraction: table name, parameterised SQL template, output format, expected row-count threshold |
 | `source_rest_config` | WFI/FileNet REST: base URL, object/query params, pagination, auth ref |
+| `source_caller_path_config` | **(v1.4)** Extension table for `pipeline_mode = CALLER_SUPPLIED_PATH` pipelines — path-prefix allowlist for the caller-supplied file path, normalisation rules, traversal-rejection config. Relational sources cannot use this mode (D13) |
 
 > **v1.3 removal:** `source_file_watch_config` (path/pattern, marker pattern, poll interval/window) no longer exists — file/object readiness is now signalled by the Control-M job dependency, not DAL-side polling.
+
+> **v1.4 addition:** `source_pipeline.pipeline_mode` (`REGISTERED_ITEM` | `CALLER_SUPPLIED_PATH`) selects whether a pipeline names a specific file/object (the model below) or accepts a caller-supplied path per invocation. The landed S3 key layout is canonical either way: `<app-bucket>/batch_date=YYYY-MM-DD/<source_system>/<filename>` — S3 versioning handles re-runs of the same batch_date, and replays land under a child prefix rather than overwriting.
 
 `source_extraction_table.extraction_query_template` holds the parameterised SQL (e.g. a `WHERE trade_date = :batch_date` predicate). Supported parameters are bind parameters plus a small, registry-defined set of dynamic parameters (date offsets, run window) — the Integration Service binds these at runtime and never builds queries programmatically (D13).
 
@@ -63,6 +68,8 @@ The UC-1 narrative document describes a flatter, pre-D03-decomposition version o
 ## Orchestration Audit Table (§11.3)
 
 One record per run. Key fields: `run_id` (PK), `trace_id`, `caller_identity` (verified principal from the validated token), `idempotency_key` (push path; **v1.3: `UNIQUE` together with `caller_identity`**, not globally unique), `source_id`, `pipeline_id`, `batch_date`, `trigger_type` (`SCHEDULED_PULL` | `SYNC_PUSH`), `trigger_source` (`CONTROL_M` | `COORDINATOR` | `API`), `trigger_ref`, `status`, `checkpoint`, `retry_count`, `datasync_execution_arn` (pull only), `s3_uri` (push), `initiated_at`, `last_updated_at`, `completed_at`, `error_code`, `error_message`, `alert_sent`.
+
+**Caller-supplied-path column (v1.4).** For `pipeline_mode = CALLER_SUPPLIED_PATH` runs, the row also carries `source_path` (the caller-supplied path for that run). Deduplication for these runs extends to `(pipeline_id, batch_date, source_path)` rather than `pipeline_id + batch_date` alone, since the same pipeline/batch_date pair can legitimately recur with a different caller-supplied path.
 
 **Run driver columns (v1.3, pull path only).** The same row carries the run driver's scheduling state, so run state and scheduling state cannot diverge: `next_wake_at` (when the run is next due), `sla_deadline_at` (scanned to raise `SLA_BREACH`), `hold_reason`, `lease_owner` and `lease_expires_at` (which Orchestration replica owns the run, and when an abandoned run becomes reclaimable). These columns are null for `SYNC_PUSH` rows, which have no driver.
 
@@ -79,6 +86,8 @@ Resides inside the source system's own database (e.g. Oracle) — **not** part o
 Every batch carries a manifest: a small JSON sidecar written **last**, after every data file, so its presence is the atomic "batch fully staged" signal. It travels with the batch across the on-prem→AWS boundary and lands in S3 alongside the data, giving a self-describing batch record where the on-prem audit database isn't reachable.
 
 Standard contents: `run_id`, `trace_id`, `pipeline_id`, `batch_date`, `files[] {path, size_bytes, checksum}`, `file_count`, `total_bytes`, `content_fingerprint`, `schema_version`, `drift_detected`, `format` (`parquet` | `passthrough`); RDBMS extracts additionally carry per-table row counts.
+
+**Cloud-side run correlation (v1.5, gap-analysis reconciliation).** The manifest gains a `compression` indicator field. On the AWS side, the post-transfer verification Lambda recovers `run_id`, `trace_id`, and `pipeline_id` directly from the landed `_manifest.json` — so a DataSync completion event maps back to the correct run without needing to read any on-premises store (A11). The transfer event itself also now carries `source_id`, letting the Trigger Lambda resolve the pre-created DataSync task by the onboarding naming/tag convention purely on the AWS side (platform §9.5, Appendix B).
 
 | Stage (pull path) | Manifest action | Location |
 |---|---|---|

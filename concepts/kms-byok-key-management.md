@@ -7,23 +7,25 @@ relationships:
     type: related_to
   - target: "[[concepts/s3-data-lake-zone-design]]"
     type: uses
-sources: ["External: Mar 11 _Data-Acquisition-Service-LLD-NarrativeV1.0[63].pdf", "External: image002.png"]
-summary: OCBC brings its own key material into AWS KMS (BYOK) per source system; rotation is manual and capped at 25 on-demand rotations per key.
+sources: ["External: Mar 11 _Data-Acquisition-Service-LLD-NarrativeV1.0[63].pdf", "External: image002.png", "External: OCBC Data Acquisition Platform on AWS.md"]
+summary: OCBC brings its own key material into AWS KMS (BYOK); rotation is manual and capped at 25 on-demand rotations per key. Superseded (v1.4, D27): one customer-managed key per AWS account, not per source system.
 provenance:
   extracted: 0.82
   inferred: 0.15
   ambiguous: 0.03
 base_confidence: 0.59
 lifecycle: draft
-lifecycle_changed: 2026-07-27
+lifecycle_changed: 2026-08-05
 tier: supporting
 created: 2026-07-27
-updated: 2026-07-27
+updated: 2026-08-05
 ---
 
 # KMS BYOK Key Management
 
-Every DataSync task writes to S3 using a **source-specific Customer Managed Key (CMK)** provisioned during source onboarding, with the per-source DataSync IAM role scoped exclusively to `kms:GenerateDataKey` / `kms:Decrypt` on that one CMK.
+> **Superseded (v1.4, 2026-08-04 — new D27):** confirmed with the customer that each DAL AWS account holds a **single** customer-managed key (CMK) for landed data, not one CMK per source system as originally modelled below. `source_governance` drops its per-source KMS key field entirely; segregation between sources/applications now rests on S3 prefix/bucket boundaries plus IAM, not per-source key scoping. Key provisioning, rotation, and key-material origin remain customer-owned. The BYOK import mechanics and the 25-rotation cap below still apply — they now apply to the one account-level key rather than to many per-source keys. See [[reference/data-acquisition-platform-v1.5]].
+
+Every DataSync task writes to S3 using a **Customer Managed Key (CMK)**, originally modelled as source-specific and provisioned during source onboarding, with the per-source DataSync IAM role scoped exclusively to `kms:GenerateDataKey` / `kms:Decrypt` on that one CMK. ^[superseded — see note above]
 
 ## BYOK Process
 

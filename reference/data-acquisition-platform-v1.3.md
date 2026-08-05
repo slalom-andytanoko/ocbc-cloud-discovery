@@ -5,6 +5,8 @@ tags: [aws, data-platform, ocbc, data-acquisition, source-document]
 relationships:
   - target: "[[reference/data-acquisition-platform-v1.2]]"
     type: supersedes
+  - target: "[[reference/data-acquisition-platform-v1.5]]"
+    type: related_to
   - target: "[[entities/cloud-data-acquisition-service]]"
     type: extends
   - target: "[[synthesis/data-acquisition-open-decisions]]"
@@ -52,6 +54,8 @@ A re-sent, textually refined copy of this same v1.3 draft (still labelled v1.3, 
 - [[deliverables/findings]] should capture the schema-drift/ownership deferrals as a documented scope reduction (not a documentation gap) — these were previously described as in-scope validators in v1.2/CS-053 and are now explicitly out of the current build.
 
 ## Related
+
+> **Superseded by v1.4/v1.5 (2026-08-04/05).** See [[reference/data-acquisition-platform-v1.5]] for the BYOK-per-account (D27), Diamond Zone (A18), caller-supplied-path, and gap-analysis-reconciliation updates that follow this version.
 
 - [[reference/data-acquisition-platform-v1.2]]
 - [[reference/cloud-sync-user-stories]]

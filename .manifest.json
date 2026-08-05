@@ -145,19 +145,18 @@
       ]
     },
     "external/OCBC Data Acquisition - Cloud Sync User Stories.md": {
-      "ingested_at": "2026-07-28T00:00:00Z",
-      "size_bytes": 75827,
-      "modified_at": "2026-07-28T11:40:57Z",
-      "content_hash": "sha256:03f56adec16db7f45a2787d6d637ffb349157e75b7c7cd2bf9dc63cf0d66812d",
+      "ingested_at": "2026-08-05T00:00:00Z",
+      "size_bytes": 172699,
+      "modified_at": "2026-08-05T12:25:36Z",
+      "content_hash": "sha256:df25658f3ce8d00347edcf22f4f4eefc0fd12477afd99017cd7cd05a6f74560a",
       "source_type": "document",
       "project": "ocbc-cloud-discovery",
-      "pages_created": [
-        "reference/cloud-sync-user-stories.md"
-      ],
+      "note": "Superseded 2026-07-28 ingest (v0.5, hash 03f56ade...) with v0.6–v0.8 revisions (caller-supplied-path CS-065–067, object key layout CS-068, allowlisted system IDs CS-069, CS-025 source_id).",
+      "pages_created": [],
       "pages_updated": [
-        "concepts/sync-push-service-architecture.md",
-        "synthesis/data-acquisition-open-decisions.md",
-        "open-questions.md"
+        "reference/cloud-sync-user-stories.md",
+        "concepts/source-registry-and-audit-data-model.md",
+        "synthesis/data-acquisition-open-decisions.md"
       ]
     },
     "external/data acquisition.pptx": {
@@ -348,6 +347,55 @@
       "note": "Byte-identical (same content_hash) to the already-ingested Re__IaC_Deployment_Process copy. No new wiki changes made; archived as duplicate.",
       "pages_created": [],
       "pages_updated": []
+    },
+    "external/OCBC Data Acquisition - Cloud Sync Detailed Design.md": {
+      "ingested_at": "2026-08-05T00:00:00Z",
+      "size_bytes": 42375,
+      "modified_at": "2026-08-05T12:29:51Z",
+      "content_hash": "sha256:b5f4db0c557861c506c6b9c6a31ee0a5e3930658620c3226f7ce5336a666f37f",
+      "source_type": "document",
+      "project": "ocbc-cloud-discovery",
+      "note": "2026-08-05 gap-analysis reconciliation revision (still v0.1) of the already-ingested Re__IaC_Deployment_Process copy — adds DECOMPRESSING state, two-phase transfer-complete callback, minimal per-task result contract, Operations Service unified view, audit-retention formula.",
+      "pages_created": [],
+      "pages_updated": [
+        "reference/data-acquisition-cloud-sync-detailed-design.md",
+        "concepts/source-registry-and-audit-data-model.md",
+        "concepts/sync-push-service-architecture.md",
+        "synthesis/data-acquisition-open-decisions.md"
+      ]
+    },
+    "external/OCBC Data Acquisition Platform on AWS.md": {
+      "ingested_at": "2026-08-05T00:00:00Z",
+      "size_bytes": 238320,
+      "modified_at": "2026-08-05T12:24:28Z",
+      "content_hash": "sha256:662d21e27b8f34ff30dabb19213f398f4beb4cb2fd6ced5ff408da5b132da342",
+      "source_type": "document",
+      "project": "ocbc-cloud-discovery",
+      "note": "DRAFT v1.5, supersedes the previously-ingested v1.3. Folds in v1.4 (D27 one CMK per account, A18 Diamond Zone buckets, allowlisted system IDs, caller-supplied-path mode) and v1.5's gap-analysis reconciliation.",
+      "pages_created": [
+        "reference/data-acquisition-platform-v1.5.md"
+      ],
+      "pages_updated": [
+        "reference/data-acquisition-platform-v1.3.md",
+        "concepts/kms-byok-key-management.md",
+        "concepts/source-registry-and-audit-data-model.md",
+        "concepts/sync-push-service-architecture.md",
+        "synthesis/data-acquisition-open-decisions.md"
+      ]
+    },
+    "external/dod.md": {
+      "ingested_at": "2026-08-05T00:00:00Z",
+      "size_bytes": 833,
+      "modified_at": "2026-08-04T14:55:43Z",
+      "content_hash": "sha256:03fc411834e1f22149736e7e785a35c74bc558874349ee51dad2a4bbd8c72ad7",
+      "source_type": "document",
+      "project": "ocbc-cloud-discovery",
+      "note": "Canonical service-level Definition of Done checklist (distinct file/hash from /Users/andy.tanoko/slalom/ocbc-data-acquisition/dod.md, the code repo's own copy). 16 items — missing the code repo's extra 'no Critical/High CI security scan findings' item; logged as finding #12.",
+      "pages_created": [],
+      "pages_updated": [
+        "reference/cloud-sync-user-stories.md",
+        "deliverables/findings.md"
+      ]
     }
   }
 }

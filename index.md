@@ -2,7 +2,7 @@
 title: Wiki Index
 category: meta
 tags: [index, navigation]
-updated: 2026-08-04
+updated: 2026-08-05
 ---
 
 # Wiki Index
@@ -13,10 +13,10 @@ updated: 2026-08-04
 - [[concepts/data-tokenization-and-encryption]] — tokenization techniques and on-prem/AWS key sync
 - [[concepts/streaming-data-acquisition]] — Confluent Kafka Cluster Linking / PrivateLink streaming path
 - [[concepts/s3-data-lake-zone-design]] — Gold/Bronze/Egress S3 zone design
-- [[concepts/kms-byok-key-management]] — BYOK KMS key creation, rotation, IAM model
+- [[concepts/kms-byok-key-management]] — BYOK KMS key creation, rotation, IAM model; superseded (v1.4, D27) by one CMK per AWS account rather than per source
 - [[concepts/temporal-io-workflow-orchestration]] — historical v1.1 decision context (superseded by v1.2)
-- [[concepts/sync-push-service-architecture]] — the dedicated, stateless Sync Push Service for Mode 2 (D24)
-- [[concepts/source-registry-and-audit-data-model]] — Source Registry, Orchestration Audit table (now with run-driver scheduling columns), manifest contract; file/object readiness moved off polling in v1.3
+- [[concepts/sync-push-service-architecture]] — the dedicated, stateless Sync Push Service for Mode 2 (D24); v1.5 confirms no compression, disambiguates source_ref/source_path, and writes its manifest last
+- [[concepts/source-registry-and-audit-data-model]] — Source Registry, Orchestration Audit table (now with run-driver scheduling columns, pipeline_mode discriminator, source_path/extended dedup), manifest contract; file/object readiness moved off polling in v1.3, caller-supplied-path mode added in v1.4
 - [[concepts/dal-security-authentication-and-secrets]] — MS Entra ID (D14), CyberArk Vault via Conjur (D22), encryption scope (D18)
 - [[concepts/orchestrator-state-machine-integrity]] — checkpoint/status coupling, un-acknowledged completions, row locking, and admission-idempotency failure patterns surfaced by a real Orchestrator code assessment
 
@@ -36,9 +36,10 @@ updated: 2026-08-04
 - [[reference/data-acquisition-service-lld]] — source document index for the earlier (Mar 2026) Cloud Data Acquisition Service LLD — superseded by v1.1
 - [[reference/data-acquisition-platform-v1.1]] — source document index for the current (Jul 2026) design
 - [[reference/data-acquisition-platform-v1.2]] — source document index for the Jul 2026 design update
-- [[reference/data-acquisition-platform-v1.3]] — source document index for the latest (Jul 2026, refined 2026-08-03) design update
-- [[reference/cloud-sync-user-stories]] — source document index for the Cloud Sync requirements baseline (latest ingest v0.5, 2026-08-03 refinement adds Epic H)
-- [[reference/data-acquisition-cloud-sync-detailed-design]] — source document index for the Cloud Sync microservice decomposition (v0.1), closing D03
+- [[reference/data-acquisition-platform-v1.3]] — source document index for the Jul 2026 design update (schema/ownership validators deferred, Control-M-driven readiness); superseded by v1.5
+- [[reference/data-acquisition-platform-v1.5]] — source document index for the latest (5 Aug 2026) design update: BYOK one-CMK-per-account (D27), Diamond Zone buckets (A18), caller-supplied-path mode, and the gap-analysis reconciliation of the pull/push parameter handoff
+- [[reference/cloud-sync-user-stories]] — source document index for the Cloud Sync requirements baseline (latest ingest v0.8: caller-supplied-path CS-065–067, object key layout CS-068, allowlisted system IDs CS-069, CS-025 source_id)
+- [[reference/data-acquisition-cloud-sync-detailed-design]] — source document index for the Cloud Sync microservice decomposition (v0.1), closing D03; updated 2026-08-05 with the gap-analysis reconciliation (DECOMPRESSING state, two-phase callback, task result contract)
 - [[reference/uc1-scheduled-db-poll-narrative]] — source document index for the detailed UC-1 walkthrough
 - [[reference/orchestration-service-mini-code-assessment]] — source document index for the independent code assessment of an orchestration-service-mini extract, plus its dod.md
 

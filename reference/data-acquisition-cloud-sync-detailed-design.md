@@ -5,6 +5,8 @@ tags: [aws, data-platform, ocbc, data-acquisition, microservices, source-documen
 relationships:
   - target: "[[reference/data-acquisition-platform-v1.3]]"
     type: derived_from
+  - target: "[[reference/data-acquisition-platform-v1.5]]"
+    type: related_to
   - target: "[[reference/cloud-sync-user-stories]]"
     type: derived_from
   - target: "[[entities/cloud-data-acquisition-service]]"
@@ -17,23 +19,36 @@ relationships:
     type: related_to
   - target: "[[synthesis/data-acquisition-open-decisions]]"
     type: informs
-sources: ["External: Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync Detailed Design.md"]
-summary: AWS-authored DRAFT v0.1 (2026-08-03) internal microservice decomposition for the Cloud Sync services, closing design decision D03. Replaces the earlier indicative Integration/Control/Security/Orchestration four-service split with five components (Orchestrator, Worker, Sync Push Service, Operations Service, Scheduler Job Adapter) built around a "database as task queue" model with no persistent lease and no inter-service network calls.
+sources: ["External: Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync Detailed Design.md", "External: OCBC Data Acquisition - Cloud Sync Detailed Design.md"]
+summary: AWS-authored DRAFT v0.1 internal microservice decomposition for the Cloud Sync services, closing design decision D03; updated 2026-08-05 with a gap-analysis reconciliation adding the DECOMPRESSING audited state, a two-phase transfer-complete callback, and a minimal per-task result contract. Replaces the earlier indicative Integration/Control/Security/Orchestration four-service split with five components (Orchestrator, Worker, Sync Push Service, Operations Service, Scheduler Job Adapter) built around a "database as task queue" model with no persistent lease and no inter-service network calls.
 provenance:
   extracted: 0.85
   inferred: 0.15
   ambiguous: 0.0
-base_confidence: 0.7
+base_confidence: 0.72
 lifecycle: draft
-lifecycle_changed: 2026-08-03
+lifecycle_changed: 2026-08-05
 tier: core
 created: 2026-08-03
-updated: 2026-08-03
+updated: 2026-08-05
 ---
 
 # OCBC Data Acquisition — Cloud Sync Detailed Microservice Design (Source Document)
 
 Reference index for **"OCBC Data Acquisition — Cloud Sync Detailed Microservice Design"**, DRAFT v0.1, Amazon Confidential. This document closes design decision **D03** (physical microservice decomposition, previously deferred in v1.1/v1.2/v1.3) by recording the internal service breakdown that implements [[reference/data-acquisition-platform-v1.3]] and [[reference/cloud-sync-user-stories]] (v0.5). It is explicitly a *living* document — schema/package-level detail is filled in progressively as user stories are implemented, not fixed upfront.
+
+## 2026-08-05 Update — Gap-Analysis Reconciliation (Version Not Bumped, Still v0.1)
+
+A re-sent copy reconciles this design against the platform document's own gap-analysis pass ([[reference/data-acquisition-platform-v1.5]]). No scope change — clarifies contracts the two documents had left implicit or inconsistent:
+
+- **`DECOMPRESSING` promoted to an audited run state (§6.1).** The run state machine gains `TRANSFERRING → DECOMPRESSING → COMPLETED` for decompression-enabled pipelines (in addition to the existing `TRANSFERRING → COMPLETED`/`SLA_BREACH` path for pipelines without decompression). This gives operators in-flight visibility between transfer-verified and fully-closed (CS-064), and lets the SLA scan cover the decompression window rather than treating decompression time as free.
+- **Two-phase transfer-complete callback (§8.2).** `POST /runs/{run_id}/transfer-complete` now carries a `phase` field (`TRANSFER` | `DECOMPRESSION`), applied **idempotently on `(run_id, phase)`**. A `TRANSFER` callback with `verification_outcome = FAIL` fails the run; with `PASS` it either completes the run directly (no decompression configured) or moves it to `DECOMPRESSING` (decompression configured), which then closes on the later `DECOMPRESSION` callback. A callback for an unknown or already-terminal run is accepted, logged, and ignored (`200`) so the AWS-side caller never enters a retry loop.
+- **Minimal per-task result contract pinned (§5.1).** Because the orchestrator cannot advance the state machine without it, the minimal JSON shape per task type is fixed in sprint 0, ahead of full column-level schema: `CHECK_READINESS → {ready}`, `EXTRACT → {manifest_uri, file_count, total_bytes}`, `VALIDATE → {aggregate_outcome, validators[]: {name, outcome, message}}`, `COMPRESS → {method, per_file: {pre_bytes, post_bytes, pre_checksum}}`, `CLASSIFY_AND_PROMOTE → {promoted_prefix}`, `PUBLISH_TRANSFER_EVENT → {event_id, published_at}` — plus a common error envelope (`error_code`, `error_class: TRANSIENT|PERMANENT`, `message`) shared by all task types for §5.4 failure handling.
+- **Manifest-write step added to the push sequence (§5.3).** The Sync Push Service's in-process pipeline now explicitly ends with assembling and writing `_manifest.json` to S3 **last**, alongside the object(s) under the same prefix — matching the pull path's write-last convention rather than leaving manifest handling implicit.
+- **`source_ref` vs `source_path` disambiguated on the push contract (§8.2).** Exactly one data-reference field applies per on-demand request, selected by `pipeline_mode`: `source_ref`/`payload_ref` for `REGISTERED_ITEM` pipelines, `source_path` for `CALLER_SUPPLIED_PATH` pipelines. Supplying the wrong one, or both, is a `400`.
+- **Operations Service unified pull/push view specified (§7.1).** Since `Run` and `Push run` are deliberately separate tables (DD-11), `GET /runs` is now specified as querying a **read-only SQL view that unions both tables** onto common fields (run_id, pipeline_id, source_id, status, batch_date, timestamps, trigger_type), rather than two endpoints or a per-query UNION — keeping the query surface single and letting future archive tables fold into the same view.
+- **Scheduler Job Adapter's schema coupling accepted as a trade-off (§7.1).** The adapter reads the `Run.status` column directly rather than going through the Operations Service — accepted because the adapter's only dependency is run status, direct reads remove any dependency on Operations Service availability, and `Run.status` is treated as a stable contract (a compatibility view/alias would be provided if the column were ever renamed).
+- **Audit ≥ zone retention rule made explicit (§7.2).** Housekeeping/archival retention for `Run`/`Push run` must satisfy **audit retention ≥ zone retention + the maximum re-run/replay latency** — not just the CS-015 dedup window in isolation — so a batch's audit row (the dedup/idempotency guard) still exists for as long as its on-premises zone data remains re-runnable. Archiving an audit row earlier reopens the dedup window and could let a re-run duplicate data.
 
 ## ⚠️ Supersedes the Previously Modelled Four-Service Split
 
@@ -146,3 +161,4 @@ Exact table schemas/DDL, package/class structure, lease-safety fencing for `CLAS
 ## Sources
 
 - External: Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync Detailed Design.md
+- External: OCBC Data Acquisition - Cloud Sync Detailed Design.md (2026-08-05 gap-analysis reconciliation copy)

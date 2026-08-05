@@ -5,6 +5,8 @@ tags: [aws, ocbc, data-acquisition, user-stories, requirements, source-document]
 relationships:
   - target: "[[reference/data-acquisition-platform-v1.1]]"
     type: derived_from
+  - target: "[[reference/data-acquisition-platform-v1.5]]"
+    type: related_to
   - target: "[[entities/cloud-data-acquisition-service]]"
     type: extends
 sources:
@@ -12,26 +14,33 @@ sources:
   - "External: FW__Data_Acquisition_Design_Document/OCBC Data Acquisition - Cloud Sync User Stories.md"
   - "External: Revised_Data_Acquisition_User_Stories_and_Design_Docs/OCBC Data Acquisition - Cloud Sync User Stories.md"
   - "External: Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync User Stories.md"
-summary: DRAFT v0.5 requirements baseline deferring the schema-drift and ownership validators to the backlog, replacing pattern-based file/object enumeration with one-file-per-pipeline-entry, moving file/object readiness onto the Control-M job-dependency signal, resolving the Scheduler Job Adapter contract (Q-25/OQ-08), adding a new Epic G for business-date resolution, and (2026-08-03 refinement) adding Epic H for post-landing decompression, resolving Q-15 — still serving as D03's decomposition input, now closed by the companion Detailed Microservice Design.
+  - "External: OCBC Data Acquisition - Cloud Sync User Stories.md (2026-08-05, v0.8)"
+  - "External: dod.md"
+summary: DRAFT v0.8 requirements baseline deferring the schema-drift and ownership validators to the backlog, replacing pattern-based file/object enumeration with one-file-per-pipeline-entry, moving file/object readiness onto the Control-M job-dependency signal, resolving the Scheduler Job Adapter contract (Q-25/OQ-08), adding Epic G (business-date resolution) and Epic H (post-landing decompression, resolves Q-15), then adding a caller-supplied-path source type (CS-065–067), a canonical object key layout (CS-068), an allowlisted-system-IDs onboarding gate (CS-069), and (v0.8, gap-analysis reconciliation) the CS-025 event payload carrying source_id so the cloud transfer path can resolve its DataSync task from the event alone.
 provenance:
   extracted: 0.9
   inferred: 0.1
   ambiguous: 0.0
 base_confidence: 0.68
 lifecycle: draft
-lifecycle_changed: 2026-08-03
+lifecycle_changed: 2026-08-05
 tier: supporting
 created: 2026-07-28
-updated: 2026-08-03
+updated: 2026-08-05
 ---
 
 # OCBC Data Acquisition — Cloud Sync User Stories (Source Document)
 
-Reference index for **"OCBC Data Acquisition — Cloud Sync Services User Stories"**, currently ingested at **DRAFT v0.5** (superseding v0.4), Amazon Confidential. It converts the architecture in [[reference/data-acquisition-platform-v1.1]], [[reference/data-acquisition-platform-v1.2]], and [[reference/data-acquisition-platform-v1.3]] into implementable user stories with Given/When/Then acceptance criteria, and is the explicit input meant to close design decision **D03** (physical microservice decomposition, previously deferred).
+Reference index for **"OCBC Data Acquisition — Cloud Sync Services User Stories"**, currently ingested at **DRAFT v0.8** (superseding v0.5), Amazon Confidential. It converts the architecture in [[reference/data-acquisition-platform-v1.1]], [[reference/data-acquisition-platform-v1.2]], and [[reference/data-acquisition-platform-v1.3]] (now [[reference/data-acquisition-platform-v1.5]]) into implementable user stories with Given/When/Then acceptance criteria, and is the explicit input meant to close design decision **D03** (physical microservice decomposition, previously deferred).
 
 ## Version Notes
 
-- **2026-08-03 refinement (still labelled v0.5):** a re-sent, textually refined copy (received via `external/Re__IaC_Deployment_Process/`) adds:
+- **v0.8 (2026-08-05) — gap-analysis reconciliation, no scope change:** the **CS-025** event payload now carries `source_id`, so the cloud transfer path can resolve the pre-created DataSync task directly from the event, without reading any on-premises store (platform A11; [[reference/data-acquisition-platform-v1.5]] §9.5, Appendix B).
+- **v0.7 (2026-08-04):**
+  - **CS-068 — Object key layout (new).** Defines the canonical `batch_date=YYYY-MM-DD/<source_system>/` key hierarchy for both on-premises Dell ECS zones and AWS S3 landing buckets. Re-runs for the same batch date create S3 object versions rather than overwriting. CS-023 and CS-032 updated to cross-reference it.
+  - **CS-069 — Allowlisted system IDs (new).** Onboarding must validate `source_system_id` against a platform-maintained allowlist — only pre-approved system IDs can be registered (fail-closed).
+- **v0.6 (2026-08-04):**
+  - **Caller-supplied-path source type (new, CS-065/066/067).** A new source type where the pipeline registers a source system without a specific file name, and the caller supplies the file path at invocation time. CS-065 defines acquisition behaviour, CS-066 deduplication, CS-067 path authorization. Applicable to file-transfer and object-storage protocols only — relational sources excluded (D13). Added to Epic A (shared capabilities) and Required priority; see [[concepts/source-registry-and-audit-data-model]] for the resulting `pipeline_mode`/`source_caller_path_config` schema.
   - **New Epic H — post-landing decompression (CS-063, CS-064), resolves Q-15.** For pipelines with decompression enabled, an AWS-side component decompresses landed file/object content after transfer verification and before the run closes, confirming against the pre-compression manifest checksum and writing back under the same KMS key. Scheduled path only — the on-demand path never compresses file content. A run does not reach `COMPLETED` until this step succeeds (or is skipped, if decompression isn't enabled for that pipeline).
   - Terminology cleanup: "scheduler job" is used consistently for the Control-M unit of work (CS-020, CS-006, CS-007, CS-051), avoiding confusion with a DAL *run*.
   - This baseline is now formally implemented by the companion **[[reference/data-acquisition-cloud-sync-detailed-design]]** (DRAFT v0.1), which closes decision **D03** — see that page for the resulting 5-component decomposition (Orchestrator, Worker, Sync Push Service, Operations Service, Scheduler Job Adapter).
@@ -79,6 +88,8 @@ Additional post-050 user stories (CS-053–CS-057) appear in v0.4/v0.5 and are c
 ## Definition of Done (applies to every story)
 
 Audit every state transition (`run_id`, `trace_id`, checkpoint); all secrets resolve from CyberArk Conjur at runtime (none ever logged or stored); idempotency on `pipeline_id + batch_date` (pull) or `idempotency_key` (push); OTLP telemetry with no source-data content or PII; identical behaviour across UAT/Prod/DR via configuration; Source Registry is read-only at execution; unit + containerised integration tests runnable in CI before any UAT deployment.
+
+> **Cross-check against the standalone `dod.md` checklist (External: dod.md):** the project's own literal Definition-of-Done checklist (business functionality/acceptance criteria met, no unattended dependencies, no build failures, >85% unit-test branch coverage, all unit/integration tests passed, penetration test if required, Spotless formatting, no Critical/High Checkstyle or PMD findings, no known defects, documentation updated, peer review passed, CI/CD pipeline available, deployed to UAT — no SIT environment for Cloud Sync Service) is the same list distilled above, at a more granular per-criterion level. **Discrepancy noted:** the `ocbc-data-acquisition` code repo's own copy of this checklist (assessed in [[reference/orchestration-service-mini-code-assessment]]) includes one additional item not present in this canonical `dod.md` — "no Critical/High vulnerabilities in a CI security scan." Logged to [[deliverables/findings]] for follow-up (is the security-scan gate a locally-added extra, or a canonical item missing from this source?).
 
 ## Change Requests Against Design v1.1 (§8)
 

@@ -9,18 +9,18 @@ relationships:
     type: contradicts
   - target: "[[concepts/source-registry-and-audit-data-model]]"
     type: uses
-sources: ["External: OCBC Data Acquisition Platform on AWS - v1.1.pdf", "External: OCBC Data Acquisition - Cloud Sync User Stories.md"]
-summary: A new, dedicated, stateless, horizontally-scaled service (D24) serves the DAL's synchronous push mode — separate from the async Orchestration Service and using no workflow engine.
+sources: ["External: OCBC Data Acquisition Platform on AWS - v1.1.pdf", "External: OCBC Data Acquisition - Cloud Sync User Stories.md", "External: OCBC Data Acquisition Platform on AWS.md", "External: OCBC Data Acquisition - Cloud Sync Detailed Design.md"]
+summary: A new, dedicated, stateless, horizontally-scaled service (D24) serves the DAL's synchronous push mode — separate from the async Orchestration Service and using no workflow engine. Never compresses (DD-15, confirmed v1.5); writes its manifest last, after the data object(s).
 provenance:
   extracted: 0.85
   inferred: 0.15
   ambiguous: 0.0
 base_confidence: 0.72
 lifecycle: draft
-lifecycle_changed: 2026-07-28
+lifecycle_changed: 2026-08-05
 tier: core
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-08-05
 ---
 
 # Sync Push Service Architecture (DAL Mode 2)
@@ -57,6 +57,13 @@ Each request runs on a virtual thread so a blocking source fetch or S3 multipart
 ## No Temporal, No Staging Zones
 
 Push is fail-fast with no durable resume (ties to D21's outage behaviour, §5.1) — the caller retries idempotently — so the service **embeds no workflow engine**, keeping pods light and fast to start for autoscaling. It also has **no on-premises staging and no DataSync step**: it embeds the Integration, Control, and Security logic as **in-process libraries** and writes directly to S3. See [[concepts/temporal-io-workflow-orchestration]] for the contrasting pull-mode design.
+
+## Request Contract Cleanup (v1.5, Gap-Analysis Reconciliation)
+
+- **No compression, confirmed.** An earlier stale reference to a "compress on the stream" step and an associated compression-skip size limit is removed — the push path was already designed never to compress (DD-15), and this update simply removes the contradicting text rather than changing behaviour.
+- **`source_ref` vs `source_path` disambiguated.** Exactly one data-reference field applies per request, selected by the pipeline's `pipeline_mode`: `source_ref` (or `payload_ref`) for `REGISTERED_ITEM` pipelines, `source_path` for `CALLER_SUPPLIED_PATH` pipelines (mirroring the pull path — see [[concepts/source-registry-and-audit-data-model]]). Supplying the wrong one for the pipeline's mode, or both, is a `400`.
+- **Manifest written last.** Since the push path has no staging zone, the Sync Push Service assembles `_manifest.json` in-process and writes it to S3 **after** the data object(s), under the same prefix — so its presence marks the batch fully landed, consistent with the pull path's write-last convention (platform §11.4).
+- **Caller-supplied-path → S3 key mapping made explicit.** For `CALLER_SUPPLIED_PATH` pipelines, the caller's normalised relative path is preserved beneath `<source_system>/` in the landed key, rather than being flattened or renamed.
 
 ## Step Sequence (all in one pod)
 
