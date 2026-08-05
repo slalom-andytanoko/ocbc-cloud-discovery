@@ -396,6 +396,16 @@
         "reference/cloud-sync-user-stories.md",
         "deliverables/findings.md"
       ]
+    },
+    "external/code-review-action-items-20260805-1.md": {
+      "ingested_at": "2026-08-05T00:00:00Z",
+      "source_type": "document",
+      "project": "ocbc-cloud-discovery",
+      "note": "AI-reviewer (Kiro) code review of the ocbc-cloud-sync codebase against User Stories v0.6/Detailed Design v0.1/dod.md. 2 Critical + 5 Required + 3 Optional gaps flagged; logged as finding #13. Archived as external/.processed/20260805-code-review-action-items-20260805-1.md.",
+      "pages_created": [],
+      "pages_updated": [
+        "deliverables/findings.md"
+      ]
     }
   }
 }

@@ -11,6 +11,7 @@
 @.claude/rules/data-consistency
 @.claude/rules/discovery-persona
 @.claude/rules/domain-glossary
+@.claude/rules/external-ingest-rules
 @.claude/rules/git-etiquette
 @.claude/rules/obsidian-wiki
 @.claude/rules/project-context

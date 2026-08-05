@@ -13,6 +13,7 @@ Copilot loads all files in `.github/instructions/` automatically.
 | [deliverables.md](.github/instructions/deliverables.md) | See [deliverables.md](.github/instructions/deliverables.md) |
 | [discovery-persona.md](.github/instructions/discovery-persona.md) | See [discovery-persona.md](.github/instructions/discovery-persona.md) |
 | [domain-glossary.md](.github/instructions/domain-glossary.md) | See [domain-glossary.md](.github/instructions/domain-glossary.md) |
+| [external-ingest-rules.md](.github/instructions/external-ingest-rules.md) | See [external-ingest-rules.md](.github/instructions/external-ingest-rules.md) |
 | [fix-skill.md](.github/instructions/fix-skill.md) | See [fix-skill.md](.github/instructions/fix-skill.md) |
 | [gap-analysis-aws.md](.github/instructions/gap-analysis-aws.md) | See [gap-analysis-aws.md](.github/instructions/gap-analysis-aws.md) |
 | [gap-analysis-iac.md](.github/instructions/gap-analysis-iac.md) | See [gap-analysis-iac.md](.github/instructions/gap-analysis-iac.md) |
