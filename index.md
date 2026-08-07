@@ -2,7 +2,7 @@
 title: Wiki Index
 category: meta
 tags: [index, navigation]
-updated: 2026-08-05
+updated: 2026-08-07
 ---
 
 # Wiki Index
@@ -42,5 +42,8 @@ updated: 2026-08-05
 - [[reference/data-acquisition-cloud-sync-detailed-design]] — source document index for the Cloud Sync microservice decomposition (v0.1), closing D03; updated 2026-08-05 with the gap-analysis reconciliation (DECOMPRESSING state, two-phase callback, task result contract)
 - [[reference/uc1-scheduled-db-poll-narrative]] — source document index for the detailed UC-1 walkthrough
 - [[reference/orchestration-service-mini-code-assessment]] — source document index for the independent code assessment of an orchestration-service-mini extract, plus its dod.md
+- [[reference/orchestration-service-code-review-20260806]] — source document index for the 2026-08-06 follow-up AI-reviewer code review of `ocbc-cloud-sync` (confirms 2026-08-05 findings resolved; 6 new Required + 3 nit/optional findings, all fixed same-day)
+- [[reference/orchestration-service-code-review-20260807]] — source document index for the 2026-08-07 connector-story (CS-006/007/008) code review of `ocbc-cloud-sync` (confirms 2026-08-06 findings resolved; 7 Required + 1 nit + 2 optional, mostly accepted tranche-scope deferrals plus a few code fixes; all findings codified into a steering design-decisions/guardrails register)
+- [[reference/delivery-tranches-roadmap]] — authoritative six-tranche delivery-sequencing plan (Tranche 1 Orchestrator-only simulated = done; Tranche 2 Worker walking skeleton → S3 = next; 3–6 harden, add connectors/decompression, add push path, add real scheduler/gateway/ops), with the CS-xxx-per-tranche mapping
 
 ## Deliverables

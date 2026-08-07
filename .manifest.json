@@ -1,411 +1,462 @@
 {
-  "version": 1,
-  "sources": {
-    "external/OCBC Data Acquisition - Orchestration Service Code Assessment.md": {
-      "ingested_at": "2026-08-04T00:00:00Z",
-      "size_bytes": 37107,
-      "modified_at": "2026-08-04T14:55:43Z",
-      "content_hash": "sha256:78f2a84fa3841b01b5051e30c2d00c631e000a44db23454d77bb13f41d795ec5",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [
-        "reference/orchestration-service-mini-code-assessment.md",
-        "concepts/orchestrator-state-machine-integrity.md",
-        "synthesis/orchestration-service-mini-assessment.md"
-      ],
-      "pages_updated": [
-        "concepts/data-onboarding-orchestration-pipeline.md",
-        "reference/data-acquisition-cloud-sync-detailed-design.md",
-        "reference/cloud-sync-user-stories.md"
-      ]
-    },
-    "/Users/andy.tanoko/slalom/ocbc-data-acquisition/dod.md": {
-      "ingested_at": "2026-08-04T00:00:00Z",
-      "size_bytes": 834,
-      "modified_at": "2026-08-04T15:16:30Z",
-      "content_hash": "sha256:636263f890ea6f800631d9eb456b87a7a22b504aa7ad8b1528e33f78382aa16a",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [],
-      "pages_updated": [
-        "reference/orchestration-service-mini-code-assessment.md",
-        "synthesis/orchestration-service-mini-assessment.md"
-      ]
-    },
-    "external/Mar 11 _Data-Acquisition-Service-LLD-NarrativeV1.0[63].pdf": {
-      "ingested_at": "2026-07-27T00:00:00Z",
-      "size_bytes": 1781873,
-      "modified_at": "2026-07-24T13:53:36Z",
-      "content_hash": "sha256:5a251513d29d0b96af968cce18c4f8957665d735b20a0653015a77fe87566aa0",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [
-        "entities/cloud-data-acquisition-service.md",
-        "entities/ai-platform-architecture.md",
-        "concepts/data-onboarding-orchestration-pipeline.md",
-        "concepts/data-tokenization-and-encryption.md",
-        "concepts/streaming-data-acquisition.md",
-        "concepts/s3-data-lake-zone-design.md",
-        "concepts/kms-byok-key-management.md",
-        "synthesis/data-acquisition-architecture-overview.md",
-        "synthesis/data-acquisition-open-decisions.md",
-        "reference/data-acquisition-service-lld.md"
-      ],
-      "pages_updated": []
-    },
-    "external/data acquisition[68]  -  Read-Only.pptx": {
-      "ingested_at": "2026-07-27T00:00:00Z",
-      "size_bytes": 2366807,
-      "modified_at": "2026-07-24T13:53:36Z",
-      "content_hash": "sha256:fac1ac0ca18f60b590528028b2d476c9942b0277e7eecad75848a6cebeb3f342",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [],
-      "pages_updated": [
-        "reference/data-acquisition-service-lld.md",
-        "synthesis/data-acquisition-architecture-overview.md"
-      ]
-    },
-    "external/Overall AI Platform Arch.png": {
-      "ingested_at": "2026-07-27T00:00:00Z",
-      "size_bytes": 294197,
-      "modified_at": "2026-07-24T13:53:36Z",
-      "content_hash": "sha256:e0dfe2f2bbab3dc7e97a75621abe0d3fdc677757cfedbd829430e9300c23fe28",
-      "source_type": "image",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [
-        "entities/ai-platform-architecture.md"
-      ],
-      "pages_updated": [
-        "synthesis/data-acquisition-architecture-overview.md"
-      ]
-    },
-    "external/Data Aqusition.png": {
-      "ingested_at": "2026-07-27T00:00:00Z",
-      "size_bytes": 839049,
-      "modified_at": "2026-07-24T13:53:36Z",
-      "content_hash": "sha256:8acdc4dc947c1b8fed446fd23e217459860f50b052050eeb7089961c76345885",
-      "source_type": "image",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [],
-      "pages_updated": [
-        "entities/cloud-data-acquisition-service.md",
-        "synthesis/data-acquisition-architecture-overview.md"
-      ]
-    },
-    "external/image001.png": {
-      "ingested_at": "2026-07-27T00:00:00Z",
-      "size_bytes": 260293,
-      "modified_at": "2026-07-24T13:53:36Z",
-      "content_hash": "sha256:01261d0a90ea27e0a51276e431c3ec7939bee1151c987007d5fe04878a95387d",
-      "source_type": "image",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [],
-      "pages_updated": [
-        "concepts/data-onboarding-orchestration-pipeline.md",
-        "synthesis/data-acquisition-architecture-overview.md"
-      ]
-    },
-    "external/image002.png": {
-      "ingested_at": "2026-07-27T00:00:00Z",
-      "size_bytes": 392848,
-      "modified_at": "2026-07-24T13:53:36Z",
-      "content_hash": "sha256:7ed2c7fade29079b29a4a79b8ece7e18bd86f8b8944c0be1b8b7315751168c78",
-      "source_type": "image",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [],
-      "pages_updated": [
-        "concepts/data-onboarding-orchestration-pipeline.md",
-        "concepts/kms-byok-key-management.md",
-        "synthesis/data-acquisition-architecture-overview.md"
-      ]
-    },
-    "external/OCBC Data Acquisition Platform on AWS - v1.1.pdf": {
-      "ingested_at": "2026-07-28T00:00:00Z",
-      "size_bytes": 1678383,
-      "modified_at": "2026-07-28T11:40:57Z",
-      "content_hash": "sha256:443f57da6cb43c49171a455b5d4e2b0f8f9ccd00575b757ee60c359498bb2f1e",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [
-        "concepts/temporal-io-workflow-orchestration.md",
-        "concepts/sync-push-service-architecture.md",
-        "concepts/source-registry-and-audit-data-model.md",
-        "concepts/dal-security-authentication-and-secrets.md",
-        "reference/data-acquisition-platform-v1.1.md"
-      ],
-      "pages_updated": [
-        "entities/cloud-data-acquisition-service.md",
-        "concepts/data-onboarding-orchestration-pipeline.md",
-        "synthesis/data-acquisition-open-decisions.md",
-        "synthesis/data-acquisition-architecture-overview.md",
-        "reference/data-acquisition-service-lld.md",
-        "deliverables/findings.md",
-        "open-questions.md"
-      ]
-    },
-    "external/OCBC Data Acquisition - Cloud Sync User Stories.md": {
-      "ingested_at": "2026-08-05T00:00:00Z",
-      "size_bytes": 172699,
-      "modified_at": "2026-08-05T12:25:36Z",
-      "content_hash": "sha256:df25658f3ce8d00347edcf22f4f4eefc0fd12477afd99017cd7cd05a6f74560a",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "note": "Superseded 2026-07-28 ingest (v0.5, hash 03f56ade...) with v0.6–v0.8 revisions (caller-supplied-path CS-065–067, object key layout CS-068, allowlisted system IDs CS-069, CS-025 source_id).",
-      "pages_created": [],
-      "pages_updated": [
-        "reference/cloud-sync-user-stories.md",
-        "concepts/source-registry-and-audit-data-model.md",
-        "synthesis/data-acquisition-open-decisions.md"
-      ]
-    },
-    "external/data acquisition.pptx": {
-      "ingested_at": "2026-07-28T00:00:00Z",
-      "size_bytes": 2368792,
-      "modified_at": "2026-07-28T11:40:57Z",
-      "content_hash": "sha256:eba043c7a3b72213f517a5ccbe183cbd874ecb93d5ac8e0b297c4b74bf3883e6",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [],
-      "pages_updated": [
-        "entities/cloud-data-acquisition-service.md",
-        "concepts/temporal-io-workflow-orchestration.md",
-        "synthesis/data-acquisition-architecture-overview.md",
-        "deliverables/findings.md"
-      ]
-    },
-    "external/uc1_scheduled_db_poll_narrative.docx": {
-      "ingested_at": "2026-07-28T00:00:00Z",
-      "size_bytes": 701141,
-      "modified_at": "2026-07-28T11:40:57Z",
-      "content_hash": "sha256:ee6c633e05403eea881b792340dfdfcd12e67b896cf3148d49f82d0d50c1fea3",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [
-        "reference/uc1-scheduled-db-poll-narrative.md"
-      ],
-      "pages_updated": [
-        "concepts/data-onboarding-orchestration-pipeline.md",
-        "concepts/source-registry-and-audit-data-model.md"
-      ]
-    },
-    "external/OCBC Data Acquisition Platform on AWS - v1.2.md": {
-      "ingested_at": "2026-07-29T00:00:00Z",
-      "size_bytes": 179410,
-      "modified_at": "2026-07-29T01:14:53Z",
-      "content_hash": "sha256:af481fe0ae1742ff4733dd3263ea59895dedfcbffe94ae812f0c9802ad8e3bb3",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [
-        "reference/data-acquisition-platform-v1.2.md"
-      ],
-      "pages_updated": [
-        "index.md",
-        "hot.md",
-        "log.md"
-      ]
-    },
-    "external/FW__Data_Acquisition_Design_Document/OCBC Data Acquisition - Cloud Sync User Stories.md": {
-      "ingested_at": "2026-07-31T00:00:00Z",
-      "size_bytes": 136582,
-      "modified_at": "2026-07-31T11:31:21Z",
-      "content_hash": "sha256:7947886aef653b6748cf25329e53a506bf06134713f8218fa958ba93d5abf9c5",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [],
-      "pages_updated": [
-        "reference/cloud-sync-user-stories.md",
-        "index.md",
-        "hot.md",
-        "log.md"
-      ]
-    },
-    "external/Revised_Data_Acquisition_User_Stories_and_Design_Docs/OCBC Data Acquisition Platform on AWS - v1.3.md": {
-      "ingested_at": "2026-07-31T00:00:00Z",
-      "size_bytes": 212967,
-      "modified_at": "2026-07-31T18:08:47Z",
-      "content_hash": "sha256:806b034873af943ea493842e1041521b04914ac96847fd88cc57213ef6612cd3",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [
-        "reference/data-acquisition-platform-v1.3.md"
-      ],
-      "pages_updated": [
-        "concepts/data-onboarding-orchestration-pipeline.md",
-        "concepts/source-registry-and-audit-data-model.md",
-        "concepts/dal-security-authentication-and-secrets.md",
-        "synthesis/data-acquisition-open-decisions.md",
-        "synthesis/data-acquisition-architecture-overview.md",
-        "reference/cloud-sync-user-stories.md",
-        "open-questions.md",
-        "deliverables/findings.md",
-        "index.md",
-        "hot.md",
-        "log.md"
-      ]
-    },
-    "external/Revised_Data_Acquisition_User_Stories_and_Design_Docs/OCBC Data Acquisition - Cloud Sync User Stories.md": {
-      "ingested_at": "2026-07-31T00:00:00Z",
-      "size_bytes": 148034,
-      "modified_at": "2026-07-31T18:08:47Z",
-      "content_hash": "sha256:3ad67b42960bbacc8c6543384cf45002b49bb8c755020d9ee8b2ddac95db4ad1",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [],
-      "pages_updated": [
-        "reference/cloud-sync-user-stories.md",
-        "synthesis/data-acquisition-open-decisions.md",
-        "index.md",
-        "hot.md",
-        "log.md"
-      ]
-    },
-    "external/Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync Detailed Design.md": {
-      "ingested_at": "2026-08-03T00:00:00Z",
-      "size_bytes": 34856,
-      "modified_at": "2026-08-03T11:58:21Z",
-      "content_hash": "sha256:c974344ab4bdfebeeb747c650c4f7fe1ebc9f21ebaef1de1a802df9e6a468fe9",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [
-        "reference/data-acquisition-cloud-sync-detailed-design.md"
-      ],
-      "pages_updated": [
-        "concepts/data-onboarding-orchestration-pipeline.md",
-        "synthesis/data-acquisition-open-decisions.md",
-        "reference/data-acquisition-platform-v1.3.md",
-        "reference/cloud-sync-user-stories.md",
-        "deliverables/findings.md",
-        "index.md",
-        "hot.md",
-        "log.md"
-      ]
-    },
-    "external/Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync User Stories.md": {
-      "ingested_at": "2026-08-03T00:00:00Z",
-      "size_bytes": 155203,
-      "modified_at": "2026-08-03T11:58:21Z",
-      "content_hash": "sha256:590a686c3a74c0dd72068d105cd5bb4768d40a86e2f28eeb8efdbabc4101a977",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [],
-      "pages_updated": [
-        "reference/cloud-sync-user-stories.md",
-        "index.md",
-        "hot.md",
-        "log.md"
-      ]
-    },
-    "external/Re__IaC_Deployment_Process/OCBC Data Acquisition Platform on AWS - v1.3.md": {
-      "ingested_at": "2026-08-03T00:00:00Z",
-      "size_bytes": 215326,
-      "modified_at": "2026-08-03T11:58:21Z",
-      "content_hash": "sha256:c8d50effd755f5deaec3c37cd1b592c6d64c4d076d69de9c01186f864dfc532e",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "pages_created": [],
-      "pages_updated": [
-        "reference/data-acquisition-platform-v1.3.md",
-        "concepts/data-onboarding-orchestration-pipeline.md",
-        "index.md",
-        "hot.md",
-        "log.md"
-      ]
-    },
-    "external/FW__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync Detailed Design.md": {
-      "ingested_at": "2026-08-03T00:00:00Z",
-      "size_bytes": 34856,
-      "modified_at": "2026-08-03T13:31:00Z",
-      "content_hash": "sha256:c974344ab4bdfebeeb747c650c4f7fe1ebc9f21ebaef1de1a802df9e6a468fe9",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "duplicate_of": "external/Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync Detailed Design.md",
-      "note": "Byte-identical (same content_hash) to the already-ingested Re__IaC_Deployment_Process copy. No new wiki changes made; archived as duplicate.",
-      "pages_created": [],
-      "pages_updated": []
-    },
-    "external/FW__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync User Stories.md": {
-      "ingested_at": "2026-08-03T00:00:00Z",
-      "size_bytes": 155203,
-      "modified_at": "2026-08-03T13:31:00Z",
-      "content_hash": "sha256:590a686c3a74c0dd72068d105cd5bb4768d40a86e2f28eeb8efdbabc4101a977",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "duplicate_of": "external/Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync User Stories.md",
-      "note": "Byte-identical (same content_hash) to the already-ingested Re__IaC_Deployment_Process copy. No new wiki changes made; archived as duplicate.",
-      "pages_created": [],
-      "pages_updated": []
-    },
-    "external/FW__IaC_Deployment_Process/OCBC Data Acquisition Platform on AWS - v1.3.md": {
-      "ingested_at": "2026-08-03T00:00:00Z",
-      "size_bytes": 215326,
-      "modified_at": "2026-08-03T13:31:00Z",
-      "content_hash": "sha256:c8d50effd755f5deaec3c37cd1b592c6d64c4d076d69de9c01186f864dfc532e",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "duplicate_of": "external/Re__IaC_Deployment_Process/OCBC Data Acquisition Platform on AWS - v1.3.md",
-      "note": "Byte-identical (same content_hash) to the already-ingested Re__IaC_Deployment_Process copy. No new wiki changes made; archived as duplicate.",
-      "pages_created": [],
-      "pages_updated": []
-    },
-    "external/OCBC Data Acquisition - Cloud Sync Detailed Design.md": {
-      "ingested_at": "2026-08-05T00:00:00Z",
-      "size_bytes": 42375,
-      "modified_at": "2026-08-05T12:29:51Z",
-      "content_hash": "sha256:b5f4db0c557861c506c6b9c6a31ee0a5e3930658620c3226f7ce5336a666f37f",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "note": "2026-08-05 gap-analysis reconciliation revision (still v0.1) of the already-ingested Re__IaC_Deployment_Process copy — adds DECOMPRESSING state, two-phase transfer-complete callback, minimal per-task result contract, Operations Service unified view, audit-retention formula.",
-      "pages_created": [],
-      "pages_updated": [
-        "reference/data-acquisition-cloud-sync-detailed-design.md",
-        "concepts/source-registry-and-audit-data-model.md",
-        "concepts/sync-push-service-architecture.md",
-        "synthesis/data-acquisition-open-decisions.md"
-      ]
-    },
-    "external/OCBC Data Acquisition Platform on AWS.md": {
-      "ingested_at": "2026-08-05T00:00:00Z",
-      "size_bytes": 238320,
-      "modified_at": "2026-08-05T12:24:28Z",
-      "content_hash": "sha256:662d21e27b8f34ff30dabb19213f398f4beb4cb2fd6ced5ff408da5b132da342",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "note": "DRAFT v1.5, supersedes the previously-ingested v1.3. Folds in v1.4 (D27 one CMK per account, A18 Diamond Zone buckets, allowlisted system IDs, caller-supplied-path mode) and v1.5's gap-analysis reconciliation.",
-      "pages_created": [
-        "reference/data-acquisition-platform-v1.5.md"
-      ],
-      "pages_updated": [
-        "reference/data-acquisition-platform-v1.3.md",
-        "concepts/kms-byok-key-management.md",
-        "concepts/source-registry-and-audit-data-model.md",
-        "concepts/sync-push-service-architecture.md",
-        "synthesis/data-acquisition-open-decisions.md"
-      ]
-    },
-    "external/dod.md": {
-      "ingested_at": "2026-08-05T00:00:00Z",
-      "size_bytes": 833,
-      "modified_at": "2026-08-04T14:55:43Z",
-      "content_hash": "sha256:03fc411834e1f22149736e7e785a35c74bc558874349ee51dad2a4bbd8c72ad7",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "note": "Canonical service-level Definition of Done checklist (distinct file/hash from /Users/andy.tanoko/slalom/ocbc-data-acquisition/dod.md, the code repo's own copy). 16 items — missing the code repo's extra 'no Critical/High CI security scan findings' item; logged as finding #12.",
-      "pages_created": [],
-      "pages_updated": [
-        "reference/cloud-sync-user-stories.md",
-        "deliverables/findings.md"
-      ]
-    },
-    "external/code-review-action-items-20260805-1.md": {
-      "ingested_at": "2026-08-05T00:00:00Z",
-      "source_type": "document",
-      "project": "ocbc-cloud-discovery",
-      "note": "AI-reviewer (Kiro) code review of the ocbc-cloud-sync codebase against User Stories v0.6/Detailed Design v0.1/dod.md. 2 Critical + 5 Required + 3 Optional gaps flagged; logged as finding #13. Archived as external/.processed/20260805-code-review-action-items-20260805-1.md.",
-      "pages_created": [],
-      "pages_updated": [
-        "deliverables/findings.md"
-      ]
-    }
+ "version": 1,
+ "sources": {
+  "external/OCBC Data Acquisition - Orchestration Service Code Assessment.md": {
+   "ingested_at": "2026-08-04T00:00:00Z",
+   "size_bytes": 37107,
+   "modified_at": "2026-08-04T14:55:43Z",
+   "content_hash": "sha256:78f2a84fa3841b01b5051e30c2d00c631e000a44db23454d77bb13f41d795ec5",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [
+    "reference/orchestration-service-mini-code-assessment.md",
+    "concepts/orchestrator-state-machine-integrity.md",
+    "synthesis/orchestration-service-mini-assessment.md"
+   ],
+   "pages_updated": [
+    "concepts/data-onboarding-orchestration-pipeline.md",
+    "reference/data-acquisition-cloud-sync-detailed-design.md",
+    "reference/cloud-sync-user-stories.md"
+   ]
+  },
+  "/Users/andy.tanoko/slalom/ocbc-data-acquisition/dod.md": {
+   "ingested_at": "2026-08-04T00:00:00Z",
+   "size_bytes": 834,
+   "modified_at": "2026-08-04T15:16:30Z",
+   "content_hash": "sha256:636263f890ea6f800631d9eb456b87a7a22b504aa7ad8b1528e33f78382aa16a",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [],
+   "pages_updated": [
+    "reference/orchestration-service-mini-code-assessment.md",
+    "synthesis/orchestration-service-mini-assessment.md"
+   ]
+  },
+  "external/Mar 11 _Data-Acquisition-Service-LLD-NarrativeV1.0[63].pdf": {
+   "ingested_at": "2026-07-27T00:00:00Z",
+   "size_bytes": 1781873,
+   "modified_at": "2026-07-24T13:53:36Z",
+   "content_hash": "sha256:5a251513d29d0b96af968cce18c4f8957665d735b20a0653015a77fe87566aa0",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [
+    "entities/cloud-data-acquisition-service.md",
+    "entities/ai-platform-architecture.md",
+    "concepts/data-onboarding-orchestration-pipeline.md",
+    "concepts/data-tokenization-and-encryption.md",
+    "concepts/streaming-data-acquisition.md",
+    "concepts/s3-data-lake-zone-design.md",
+    "concepts/kms-byok-key-management.md",
+    "synthesis/data-acquisition-architecture-overview.md",
+    "synthesis/data-acquisition-open-decisions.md",
+    "reference/data-acquisition-service-lld.md"
+   ],
+   "pages_updated": []
+  },
+  "external/data acquisition[68]  -  Read-Only.pptx": {
+   "ingested_at": "2026-07-27T00:00:00Z",
+   "size_bytes": 2366807,
+   "modified_at": "2026-07-24T13:53:36Z",
+   "content_hash": "sha256:fac1ac0ca18f60b590528028b2d476c9942b0277e7eecad75848a6cebeb3f342",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [],
+   "pages_updated": [
+    "reference/data-acquisition-service-lld.md",
+    "synthesis/data-acquisition-architecture-overview.md"
+   ]
+  },
+  "external/Overall AI Platform Arch.png": {
+   "ingested_at": "2026-07-27T00:00:00Z",
+   "size_bytes": 294197,
+   "modified_at": "2026-07-24T13:53:36Z",
+   "content_hash": "sha256:e0dfe2f2bbab3dc7e97a75621abe0d3fdc677757cfedbd829430e9300c23fe28",
+   "source_type": "image",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [
+    "entities/ai-platform-architecture.md"
+   ],
+   "pages_updated": [
+    "synthesis/data-acquisition-architecture-overview.md"
+   ]
+  },
+  "external/Data Aqusition.png": {
+   "ingested_at": "2026-07-27T00:00:00Z",
+   "size_bytes": 839049,
+   "modified_at": "2026-07-24T13:53:36Z",
+   "content_hash": "sha256:8acdc4dc947c1b8fed446fd23e217459860f50b052050eeb7089961c76345885",
+   "source_type": "image",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [],
+   "pages_updated": [
+    "entities/cloud-data-acquisition-service.md",
+    "synthesis/data-acquisition-architecture-overview.md"
+   ]
+  },
+  "external/image001.png": {
+   "ingested_at": "2026-07-27T00:00:00Z",
+   "size_bytes": 260293,
+   "modified_at": "2026-07-24T13:53:36Z",
+   "content_hash": "sha256:01261d0a90ea27e0a51276e431c3ec7939bee1151c987007d5fe04878a95387d",
+   "source_type": "image",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [],
+   "pages_updated": [
+    "concepts/data-onboarding-orchestration-pipeline.md",
+    "synthesis/data-acquisition-architecture-overview.md"
+   ]
+  },
+  "external/image002.png": {
+   "ingested_at": "2026-07-27T00:00:00Z",
+   "size_bytes": 392848,
+   "modified_at": "2026-07-24T13:53:36Z",
+   "content_hash": "sha256:7ed2c7fade29079b29a4a79b8ece7e18bd86f8b8944c0be1b8b7315751168c78",
+   "source_type": "image",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [],
+   "pages_updated": [
+    "concepts/data-onboarding-orchestration-pipeline.md",
+    "concepts/kms-byok-key-management.md",
+    "synthesis/data-acquisition-architecture-overview.md"
+   ]
+  },
+  "external/OCBC Data Acquisition Platform on AWS - v1.1.pdf": {
+   "ingested_at": "2026-07-28T00:00:00Z",
+   "size_bytes": 1678383,
+   "modified_at": "2026-07-28T11:40:57Z",
+   "content_hash": "sha256:443f57da6cb43c49171a455b5d4e2b0f8f9ccd00575b757ee60c359498bb2f1e",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [
+    "concepts/temporal-io-workflow-orchestration.md",
+    "concepts/sync-push-service-architecture.md",
+    "concepts/source-registry-and-audit-data-model.md",
+    "concepts/dal-security-authentication-and-secrets.md",
+    "reference/data-acquisition-platform-v1.1.md"
+   ],
+   "pages_updated": [
+    "entities/cloud-data-acquisition-service.md",
+    "concepts/data-onboarding-orchestration-pipeline.md",
+    "synthesis/data-acquisition-open-decisions.md",
+    "synthesis/data-acquisition-architecture-overview.md",
+    "reference/data-acquisition-service-lld.md",
+    "deliverables/findings.md",
+    "open-questions.md"
+   ]
+  },
+  "external/OCBC Data Acquisition - Cloud Sync User Stories.md": {
+   "ingested_at": "2026-08-05T00:00:00Z",
+   "size_bytes": 172699,
+   "modified_at": "2026-08-05T12:25:36Z",
+   "content_hash": "sha256:df25658f3ce8d00347edcf22f4f4eefc0fd12477afd99017cd7cd05a6f74560a",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "note": "Superseded 2026-07-28 ingest (v0.5, hash 03f56ade...) with v0.6–v0.8 revisions (caller-supplied-path CS-065–067, object key layout CS-068, allowlisted system IDs CS-069, CS-025 source_id).",
+   "pages_created": [],
+   "pages_updated": [
+    "reference/cloud-sync-user-stories.md",
+    "concepts/source-registry-and-audit-data-model.md",
+    "synthesis/data-acquisition-open-decisions.md"
+   ]
+  },
+  "external/data acquisition.pptx": {
+   "ingested_at": "2026-07-28T00:00:00Z",
+   "size_bytes": 2368792,
+   "modified_at": "2026-07-28T11:40:57Z",
+   "content_hash": "sha256:eba043c7a3b72213f517a5ccbe183cbd874ecb93d5ac8e0b297c4b74bf3883e6",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [],
+   "pages_updated": [
+    "entities/cloud-data-acquisition-service.md",
+    "concepts/temporal-io-workflow-orchestration.md",
+    "synthesis/data-acquisition-architecture-overview.md",
+    "deliverables/findings.md"
+   ]
+  },
+  "external/uc1_scheduled_db_poll_narrative.docx": {
+   "ingested_at": "2026-07-28T00:00:00Z",
+   "size_bytes": 701141,
+   "modified_at": "2026-07-28T11:40:57Z",
+   "content_hash": "sha256:ee6c633e05403eea881b792340dfdfcd12e67b896cf3148d49f82d0d50c1fea3",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [
+    "reference/uc1-scheduled-db-poll-narrative.md"
+   ],
+   "pages_updated": [
+    "concepts/data-onboarding-orchestration-pipeline.md",
+    "concepts/source-registry-and-audit-data-model.md"
+   ]
+  },
+  "external/OCBC Data Acquisition Platform on AWS - v1.2.md": {
+   "ingested_at": "2026-07-29T00:00:00Z",
+   "size_bytes": 179410,
+   "modified_at": "2026-07-29T01:14:53Z",
+   "content_hash": "sha256:af481fe0ae1742ff4733dd3263ea59895dedfcbffe94ae812f0c9802ad8e3bb3",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [
+    "reference/data-acquisition-platform-v1.2.md"
+   ],
+   "pages_updated": [
+    "index.md",
+    "hot.md",
+    "log.md"
+   ]
+  },
+  "external/FW__Data_Acquisition_Design_Document/OCBC Data Acquisition - Cloud Sync User Stories.md": {
+   "ingested_at": "2026-07-31T00:00:00Z",
+   "size_bytes": 136582,
+   "modified_at": "2026-07-31T11:31:21Z",
+   "content_hash": "sha256:7947886aef653b6748cf25329e53a506bf06134713f8218fa958ba93d5abf9c5",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [],
+   "pages_updated": [
+    "reference/cloud-sync-user-stories.md",
+    "index.md",
+    "hot.md",
+    "log.md"
+   ]
+  },
+  "external/Revised_Data_Acquisition_User_Stories_and_Design_Docs/OCBC Data Acquisition Platform on AWS - v1.3.md": {
+   "ingested_at": "2026-07-31T00:00:00Z",
+   "size_bytes": 212967,
+   "modified_at": "2026-07-31T18:08:47Z",
+   "content_hash": "sha256:806b034873af943ea493842e1041521b04914ac96847fd88cc57213ef6612cd3",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [
+    "reference/data-acquisition-platform-v1.3.md"
+   ],
+   "pages_updated": [
+    "concepts/data-onboarding-orchestration-pipeline.md",
+    "concepts/source-registry-and-audit-data-model.md",
+    "concepts/dal-security-authentication-and-secrets.md",
+    "synthesis/data-acquisition-open-decisions.md",
+    "synthesis/data-acquisition-architecture-overview.md",
+    "reference/cloud-sync-user-stories.md",
+    "open-questions.md",
+    "deliverables/findings.md",
+    "index.md",
+    "hot.md",
+    "log.md"
+   ]
+  },
+  "external/Revised_Data_Acquisition_User_Stories_and_Design_Docs/OCBC Data Acquisition - Cloud Sync User Stories.md": {
+   "ingested_at": "2026-07-31T00:00:00Z",
+   "size_bytes": 148034,
+   "modified_at": "2026-07-31T18:08:47Z",
+   "content_hash": "sha256:3ad67b42960bbacc8c6543384cf45002b49bb8c755020d9ee8b2ddac95db4ad1",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [],
+   "pages_updated": [
+    "reference/cloud-sync-user-stories.md",
+    "synthesis/data-acquisition-open-decisions.md",
+    "index.md",
+    "hot.md",
+    "log.md"
+   ]
+  },
+  "external/Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync Detailed Design.md": {
+   "ingested_at": "2026-08-03T00:00:00Z",
+   "size_bytes": 34856,
+   "modified_at": "2026-08-03T11:58:21Z",
+   "content_hash": "sha256:c974344ab4bdfebeeb747c650c4f7fe1ebc9f21ebaef1de1a802df9e6a468fe9",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [
+    "reference/data-acquisition-cloud-sync-detailed-design.md"
+   ],
+   "pages_updated": [
+    "concepts/data-onboarding-orchestration-pipeline.md",
+    "synthesis/data-acquisition-open-decisions.md",
+    "reference/data-acquisition-platform-v1.3.md",
+    "reference/cloud-sync-user-stories.md",
+    "deliverables/findings.md",
+    "index.md",
+    "hot.md",
+    "log.md"
+   ]
+  },
+  "external/Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync User Stories.md": {
+   "ingested_at": "2026-08-03T00:00:00Z",
+   "size_bytes": 155203,
+   "modified_at": "2026-08-03T11:58:21Z",
+   "content_hash": "sha256:590a686c3a74c0dd72068d105cd5bb4768d40a86e2f28eeb8efdbabc4101a977",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [],
+   "pages_updated": [
+    "reference/cloud-sync-user-stories.md",
+    "index.md",
+    "hot.md",
+    "log.md"
+   ]
+  },
+  "external/Re__IaC_Deployment_Process/OCBC Data Acquisition Platform on AWS - v1.3.md": {
+   "ingested_at": "2026-08-03T00:00:00Z",
+   "size_bytes": 215326,
+   "modified_at": "2026-08-03T11:58:21Z",
+   "content_hash": "sha256:c8d50effd755f5deaec3c37cd1b592c6d64c4d076d69de9c01186f864dfc532e",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "pages_created": [],
+   "pages_updated": [
+    "reference/data-acquisition-platform-v1.3.md",
+    "concepts/data-onboarding-orchestration-pipeline.md",
+    "index.md",
+    "hot.md",
+    "log.md"
+   ]
+  },
+  "external/FW__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync Detailed Design.md": {
+   "ingested_at": "2026-08-03T00:00:00Z",
+   "size_bytes": 34856,
+   "modified_at": "2026-08-03T13:31:00Z",
+   "content_hash": "sha256:c974344ab4bdfebeeb747c650c4f7fe1ebc9f21ebaef1de1a802df9e6a468fe9",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "duplicate_of": "external/Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync Detailed Design.md",
+   "note": "Byte-identical (same content_hash) to the already-ingested Re__IaC_Deployment_Process copy. No new wiki changes made; archived as duplicate.",
+   "pages_created": [],
+   "pages_updated": []
+  },
+  "external/FW__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync User Stories.md": {
+   "ingested_at": "2026-08-03T00:00:00Z",
+   "size_bytes": 155203,
+   "modified_at": "2026-08-03T13:31:00Z",
+   "content_hash": "sha256:590a686c3a74c0dd72068d105cd5bb4768d40a86e2f28eeb8efdbabc4101a977",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "duplicate_of": "external/Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync User Stories.md",
+   "note": "Byte-identical (same content_hash) to the already-ingested Re__IaC_Deployment_Process copy. No new wiki changes made; archived as duplicate.",
+   "pages_created": [],
+   "pages_updated": []
+  },
+  "external/FW__IaC_Deployment_Process/OCBC Data Acquisition Platform on AWS - v1.3.md": {
+   "ingested_at": "2026-08-03T00:00:00Z",
+   "size_bytes": 215326,
+   "modified_at": "2026-08-03T13:31:00Z",
+   "content_hash": "sha256:c8d50effd755f5deaec3c37cd1b592c6d64c4d076d69de9c01186f864dfc532e",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "duplicate_of": "external/Re__IaC_Deployment_Process/OCBC Data Acquisition Platform on AWS - v1.3.md",
+   "note": "Byte-identical (same content_hash) to the already-ingested Re__IaC_Deployment_Process copy. No new wiki changes made; archived as duplicate.",
+   "pages_created": [],
+   "pages_updated": []
+  },
+  "external/OCBC Data Acquisition - Cloud Sync Detailed Design.md": {
+   "ingested_at": "2026-08-05T00:00:00Z",
+   "size_bytes": 42375,
+   "modified_at": "2026-08-05T12:29:51Z",
+   "content_hash": "sha256:b5f4db0c557861c506c6b9c6a31ee0a5e3930658620c3226f7ce5336a666f37f",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "note": "2026-08-05 gap-analysis reconciliation revision (still v0.1) of the already-ingested Re__IaC_Deployment_Process copy — adds DECOMPRESSING state, two-phase transfer-complete callback, minimal per-task result contract, Operations Service unified view, audit-retention formula.",
+   "pages_created": [],
+   "pages_updated": [
+    "reference/data-acquisition-cloud-sync-detailed-design.md",
+    "concepts/source-registry-and-audit-data-model.md",
+    "concepts/sync-push-service-architecture.md",
+    "synthesis/data-acquisition-open-decisions.md"
+   ]
+  },
+  "external/OCBC Data Acquisition Platform on AWS.md": {
+   "ingested_at": "2026-08-05T00:00:00Z",
+   "size_bytes": 238320,
+   "modified_at": "2026-08-05T12:24:28Z",
+   "content_hash": "sha256:662d21e27b8f34ff30dabb19213f398f4beb4cb2fd6ced5ff408da5b132da342",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "note": "DRAFT v1.5, supersedes the previously-ingested v1.3. Folds in v1.4 (D27 one CMK per account, A18 Diamond Zone buckets, allowlisted system IDs, caller-supplied-path mode) and v1.5's gap-analysis reconciliation.",
+   "pages_created": [
+    "reference/data-acquisition-platform-v1.5.md"
+   ],
+   "pages_updated": [
+    "reference/data-acquisition-platform-v1.3.md",
+    "concepts/kms-byok-key-management.md",
+    "concepts/source-registry-and-audit-data-model.md",
+    "concepts/sync-push-service-architecture.md",
+    "synthesis/data-acquisition-open-decisions.md"
+   ]
+  },
+  "external/dod.md": {
+   "ingested_at": "2026-08-05T00:00:00Z",
+   "size_bytes": 833,
+   "modified_at": "2026-08-04T14:55:43Z",
+   "content_hash": "sha256:03fc411834e1f22149736e7e785a35c74bc558874349ee51dad2a4bbd8c72ad7",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "note": "Canonical service-level Definition of Done checklist (distinct file/hash from /Users/andy.tanoko/slalom/ocbc-data-acquisition/dod.md, the code repo's own copy). 16 items — missing the code repo's extra 'no Critical/High CI security scan findings' item; logged as finding #12.",
+   "pages_created": [],
+   "pages_updated": [
+    "reference/cloud-sync-user-stories.md",
+    "deliverables/findings.md"
+   ]
+  },
+  "external/code-review-action-items-20260805-1.md": {
+   "ingested_at": "2026-08-05T00:00:00Z",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "note": "AI-reviewer (Kiro) code review of the ocbc-cloud-sync codebase against User Stories v0.6/Detailed Design v0.1/dod.md. 2 Critical + 5 Required + 3 Optional gaps flagged; logged as finding #13. Archived as external/.processed/20260805-code-review-action-items-20260805-1.md.",
+   "pages_created": [],
+   "pages_updated": [
+    "deliverables/findings.md"
+   ]
+  },
+  "external/code-review-findings-20260806-1.md": {
+   "ingested_at": "2026-08-06T00:00:00Z",
+   "size_bytes": 19052,
+   "modified_at": "2026-08-06T15:09:53Z",
+   "content_hash": "sha256:15a2ad7380eaf7a7774ae5ee4bb0ecd913c49ac7f579ca324dce9479e05c55d3",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "note": "Follow-up AI-reviewer (Kiro) code review of ocbc-cloud-sync (2026-08-06). Confirms all 10 findings from the 2026-08-05 review (external/code-review-action-items-20260805-1.md, finding #13) are resolved. Raises 6 new Required + 1 nit + 2 optional findings (SLA per-pipeline config, resume staged-data check, concurrent-replay guard, rate limiting, SLA audit event, @DisplayName/CS-xxx test traceability); logged as finding #14. All 9 items fixed same-day in ocbc-cloud-sync. Archived as .processed/20260806-code-review-findings-20260806-1.md.",
+   "pages_created": [
+    "reference/orchestration-service-code-review-20260806.md"
+   ],
+   "pages_updated": [
+    "deliverables/findings.md",
+    "synthesis/orchestration-service-mini-assessment.md",
+    "index.md"
+   ]
+  },
+  "external/code-review-findings-20260807-1.md": {
+   "ingested_at": "2026-08-07T00:00:00Z",
+   "size_bytes": 26301,
+   "modified_at": "2026-08-07T10:24:29Z",
+   "content_hash": "sha256:9fbc83602131bca5fb6cb9523529db70018e3295512d833278e8856fe8df2fbc",
+   "source_type": "document",
+   "project": "ocbc-cloud-discovery",
+   "note": "Fourth AI-reviewer (Kiro) code review of ocbc-cloud-sync (2026-08-07), the CS-006/007/008 connector-story pass. Confirms all 9 findings from the 2026-08-06 review (external/code-review-findings-20260806-1.md, finding #14) are resolved. Raises 7 Required + 1 nit + 2 optional findings, mostly accepted tranche-scope deferrals (S3 source read, Parquet, business-date resolution, SLA_BREACH-status-vs-flag, API-key vs Entra ID) plus a few code fixes (permission-denied classification, callback transfer metrics, rate-limit eviction, two @DisplayName, a UC-x javadoc); logged as finding #15. All actionable items fixed same-day in ocbc-cloud-sync and codified into steering/design-decisions-and-guardrails.md. Archived as .processed/20260807-code-review-findings-20260807-1.md.",
+   "pages_created": [
+    "reference/orchestration-service-code-review-20260807.md"
+   ],
+   "pages_updated": [
+    "deliverables/findings.md",
+    "synthesis/orchestration-service-mini-assessment.md",
+    "index.md"
+   ]
+  },
+  "external/Delivery-Tranches.xlsx": {
+   "ingested_at": "2026-08-06T00:00:00Z",
+   "size_bytes": 12088,
+   "modified_at": "2026-08-06T08:49:17.605837Z",
+   "content_hash": "sha256:d6f432bad80e447eedcccedff2e188a4cd69cff0fbc9cad720ac172f3e980665",
+   "source_type": "spreadsheet",
+   "project": "ocbc-cloud-discovery",
+   "note": "Authoritative six-tranche delivery-sequencing roadmap for the Cloud Sync build. Distilled into reference/delivery-tranches-roadmap.md (Tranche 1 Orchestrator-only simulated = done; Tranche 2 Worker walking skeleton -> mock/local S3, CS-006/007/008 = next; 3-6 harden + add connectors/decompression + push path + real scheduler/gateway/ops). Also aligned ocbc-cloud-sync/steering/design.md. Archived as .processed/20260806-Delivery-Tranches.xlsx.",
+   "pages_created": [
+    "reference/delivery-tranches-roadmap.md"
+   ],
+   "pages_updated": [
+    "index.md",
+    "hot.md",
+    "log.md"
+   ]
   }
+ }
 }
