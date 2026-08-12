@@ -16,7 +16,8 @@ sources:
   - "External: Re__IaC_Deployment_Process/OCBC Data Acquisition - Cloud Sync User Stories.md"
   - "External: OCBC Data Acquisition - Cloud Sync User Stories.md (2026-08-05, v0.8)"
   - "External: dod.md"
-summary: DRAFT v0.8 requirements baseline deferring the schema-drift and ownership validators to the backlog, replacing pattern-based file/object enumeration with one-file-per-pipeline-entry, moving file/object readiness onto the Control-M job-dependency signal, resolving the Scheduler Job Adapter contract (Q-25/OQ-08), adding Epic G (business-date resolution) and Epic H (post-landing decompression, resolves Q-15), then adding a caller-supplied-path source type (CS-065–067), a canonical object key layout (CS-068), an allowlisted-system-IDs onboarding gate (CS-069), and (v0.8, gap-analysis reconciliation) the CS-025 event payload carrying source_id so the cloud transfer path can resolve its DataSync task from the event alone.
+summary: >-
+  DRAFT v0.8 requirements baseline deferring the schema-drift and ownership validators to the backlog, replacing pattern-based file/object enumeration with one-file-per-pipeline-entry, moving file/object readiness onto the Control-M job-dependency signal, resolving the Scheduler Job Adapter contract (Q-25/OQ-08), adding Epic G (business-date resolution) and Epic H (post-landing decompression, resolves Q-15), then adding a caller-supplied-path source type (CS-065–067), a canonical object key layout (CS-068), an allowlisted-system-IDs onboarding gate (CS-069), and (v0.8, gap-analysis reconciliation) the CS-025 event payload carrying source_id so the cloud transfer path can resolve its DataSync task from the event alone.
 provenance:
   extracted: 0.9
   inferred: 0.1
@@ -26,7 +27,7 @@ lifecycle: draft
 lifecycle_changed: 2026-08-05
 tier: supporting
 created: 2026-07-28
-updated: 2026-08-05
+updated: 2026-08-15
 ---
 
 # OCBC Data Acquisition — Cloud Sync User Stories (Source Document)
@@ -116,6 +117,140 @@ The document's own open-question register (`Q-01`–`Q-12`) covers payload/volum
 ## Traceability
 
 The document includes a full traceability table mapping each story range back to the v1.1 decisions/sections it implements (§7) — useful when validating that a future implementation covers every confirmed decision.
+
+## Story Index (v0.9 — all 70 CS-xxx stories)
+
+Stories present in the knowledge-base index above are marked ✓. Stories added here from the v0.9 source to complete coverage are marked with their assigned tranche.
+
+### Epic A — Shared capabilities (CS-001–CS-019)
+
+| ID | Title | Tranche | Notes |
+|---|---|---|---|
+| CS-001 | Initiate a run | T1 | ✓ in index |
+| **CS-002** | Resolve credentials at the point of use | T6a | CyberArk/Conjur vaulting — same stand-in replacement class as API-key → Entra ID |
+| **CS-003** | Add a source of a supported access type by configuration | T4 | Closeable only once all four connectors exist |
+| **CS-004** | Acquire from a relational source | T4 | JDBC/Oracle connector |
+| **CS-005** | Acquire from a content repository source | T4 | REST/FileNet connector |
+| CS-006 | Acquire from a file-transfer source | T2 | ✓ in index |
+| CS-007 | Acquire from an object-storage source | T2 | ✓ in index |
+| CS-008 | Produce a Parquet extract from a relational source | T2 | ✓ in index |
+| **CS-009** | Land file content unchanged | T2 | Pass-through byte integrity — implicit in T2 walking skeleton |
+| **CS-010** | Compress a batch before transfer | T4 | `S3Compressor` gzip on `raw/`; CR-02 confirms both modes |
+| **CS-011** | Produce a manifest for every batch | T4 | Required manifest fields |
+| **CS-012** | Validate a batch before it is cleared | T4 | Batch integrity check |
+| CS-013 | Detect schema changes *(deferred BL-005)* | Backlog | ✓ in index |
+| **CS-014** | Classify a batch and record its destination | T4 | Governance labelling before `CLASSIFY_AND_PROMOTE` |
+| **CS-015** | Recognise duplicate requests instead of re-executing them | T1 | Idempotency on `pipeline_id + batch_date` / `idempotency_key` |
+| **CS-016** | Retry transient failures within limits | T3 | Retry/backoff — delivered in T3 |
+| **CS-017** | Correlate a run end to end with one identifier | T1 | Trace ID |
+| **CS-018** | Record every state transition | T1 | `run_event` table + `RunEventRecorder` — implicit in T1 Orchestrator skeleton |
+| CS-019 | Stream data in bounded memory | T4 | ✓ in index |
+
+### Epic B — Mode 1: Scheduled pull (CS-020–CS-029)
+
+| ID | Title | Tranche | Notes |
+|---|---|---|---|
+| CS-020 | Initiate via the Scheduler Job Adapter | T1/T6a | ✓ in index (stub T1; real Control-M contract T6a) |
+| CS-021 | Poll for source readiness | T1/T4 | ✓ in index (stub T1; real JdbcTemplate query T4) |
+| CS-022 | Honour the scheduler's readiness signal | T1 | ✓ in index |
+| CS-023 | Write to the staging zone | T2 | ✓ in index |
+| **CS-024** | Clear a batch for transfer as a single explicit act | T3 | Classify-and-promote — delivered in T3 |
+| CS-025 | Publish the transfer event | T4 | ✓ in index |
+| **CS-026** | Close a run on the transfer result | T1 | Two-phase transfer-complete callback (`TRANSFER`/`DECOMPRESSION`) |
+| **CS-027** | Detect and alert on SLA breach | T1 | SLA deadline scheduled at admission |
+| **CS-028** | Keep working on the premises through a cloud outage | T4 | Outage-hold; deferred from T3 — trigger TBD |
+| CS-029 | Enforce a transfer-slot ceiling | T1 | ✓ in index |
+
+### Epic C — Mode 2: Synchronous push (CS-030–CS-036)
+
+| ID | Title | Tranche | Notes |
+|---|---|---|---|
+| CS-030 | Accept an authenticated on-demand push request | T5 | ✓ in index |
+| CS-031 | Fetch the referenced content | T5 | ✓ in index |
+| CS-032 | Write directly to the landing zone | T5 | ✓ in index |
+| **CS-033** | Return a terminal result within a bounded time | T5 | Synchronous push timeout |
+| **CS-034** | Shed load rather than fail unpredictably | T5 | Push admission control |
+| **CS-035** | Fail fast when the destination is unreachable | T5 | Destination reachability check |
+| CS-036 | Drain in-flight requests on scale-down | T5 | ✓ in index |
+
+### Epic D — API edge and identity (CS-037–CS-038)
+
+| ID | Title | Tranche | Notes |
+|---|---|---|---|
+| CS-037 | Validate gateway tokens | T1/T6a | ✓ in index (API-key stand-in T1; real Entra ID T6a) |
+| CS-038 | Enforce per-caller authorisation and rate limiting | T1 | ✓ in index |
+
+### Epic E — Operations (CS-039–CS-043)
+
+| ID | Title | Tranche | Notes |
+|---|---|---|---|
+| CS-039 | Query run state | T6b | ✓ in index |
+| **CS-040** | Resume a failed scheduled run | T1 | Resume from checkpoint |
+| **CS-041** | Replay a batch | T1 | Replay creates a new linked run |
+| **CS-042** | Isolate a repeatedly failing batch | T6b | Quarantine — deferred from T3 |
+| CS-043 | Alert on SLA breach and failure patterns | T6b | ✓ in index |
+
+### Epic F — Non-functional requirements (CS-044–CS-050)
+
+| ID | Title | Tranche | Notes |
+|---|---|---|---|
+| CS-044 | Identical behaviour across environments via configuration | T6b | ✓ in index |
+| **CS-045** | Grant only the access each step needs | T6b | Least-privilege zone access |
+| **CS-046** | Keep data content out of telemetry and metadata | T6b | Telemetry content governance |
+| **CS-047** | Protect shared dependencies as demand grows | T6b | Connection pooling / per-source ceiling |
+| **CS-048** | Be deployable, observable, and reversible | T6b | OpenShift workload readiness |
+| **CS-049** | Meet stated throughput and latency targets | T6b | Throughput/latency targets |
+| CS-050 | Survive store failures and recover within RTO | T6b | ✓ in index |
+
+### Post-050 extensions (CS-051–CS-059)
+
+| ID | Title | Tranche | Notes |
+|---|---|---|---|
+| CS-051 | See pipeline configuration without changing it | T6b | ✓ in index |
+| **CS-052** | See run information without operating on runs | T6b | Read-only run status/history view |
+| CS-053 | Validate via an extensible chain | T1/T4 | ✓ in index (stub T1; real VALIDATE task T4) |
+| CS-054 | Check format and size bounds | T4 | ✓ in index |
+| **CS-055** | Refuse to run a source that is not fully registered or source is not active | T4 | Registration-completeness check — validation chain member |
+| **CS-056** | Check governance metadata is complete and self-consistent | T5 | Blocked on Q-03; natural fit when second mode exercises validation chain |
+| CS-057 | Verify data owner *(deferred BL-006)* | Backlog | ✓ in index |
+| **CS-058** | Cancel a run | T1 | Cancel endpoint |
+| **CS-059** | Enforce zone retention and remove expired content | T6b | Operations Service housekeeping; blocked on Q-03 |
+
+### Epic G — Business date resolution (CS-060–CS-062)
+
+| ID | Title | Tranche | Notes |
+|---|---|---|---|
+| CS-060 | Resolve special date tokens to a concrete business date | T7 | ✓ in index |
+| **CS-061** | Maintain a system-wide anchor date with scheduled roll-over | T7 | Control-M roll-over job |
+| CS-062 | Apply per-country business calendars | T7 | ✓ in index |
+
+### Epic H — Post-landing decompression (CS-063–CS-064)
+
+| ID | Title | Tranche | Notes |
+|---|---|---|---|
+| CS-063 | List compressed objects under a prefix | T4 | ✓ in index |
+| CS-064 | Decompress landed objects in place | T4 | ✓ in index |
+
+### Caller-supplied-path source type (CS-065–CS-067)
+
+| ID | Title | Tranche | Notes |
+|---|---|---|---|
+| CS-065 | Acquire from a caller-supplied path | T4 | ✓ in index |
+| CS-066 | Deduplicate caller-supplied-path runs | T4 | ✓ in index |
+| CS-067 | Authorise caller-supplied paths | T4 | ✓ in index |
+
+### Object key and onboarding (CS-068–CS-069)
+
+| ID | Title | Tranche | Notes |
+|---|---|---|---|
+| CS-068 | Canonical object key layout | T4 | ✓ in index |
+| CS-069 | Allowlisted system IDs | T4 | ✓ in index |
+
+### Medallion tier routing (CS-070)
+
+| ID | Title | Tranche | Notes |
+|---|---|---|---|
+| **CS-070** | Route each file to its medallion tier bucket | T4 | Added in v0.9; Bronze/Gold bucket resolved from registry at S3 write time |
 
 ## Related
 
