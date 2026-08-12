@@ -19,10 +19,11 @@ summary: >
   incremental tranches, each defined by a demonstrable end-to-end scenario, the
   component(s) it introduces, and the CS-xxx user-story IDs it delivers. Tranche 1
   (Orchestrator-only, fully simulated) is complete; Tranche 2 (Worker "walking skeleton":
-  one real connector writing to mock/local S3) is next. Tranches 3–6 progressively harden
-  the flow (retries/quarantine/business-date/outage-hold), add the remaining connectors and
+  one real connector writing to mock/local S3) is complete. Tranches 3–6 progressively harden
+  the flow (retries/quarantine/outage-hold), add the remaining connectors and
   real decompression, add the synchronous Sync Push path, and finally swap the API-key/manual
-  stand-ins for real Control-M + gateway auth and an Operations Service.
+  stand-ins for real Control-M + gateway auth and an Operations Service; business-date
+  resolution (Epic G, CS-060–062) is split out as the final tranche (Tranche 7).
 provenance:
   extracted: 0.9
   inferred: 0.1
@@ -30,7 +31,7 @@ provenance:
 base_confidence: 0.8
 lifecycle: draft
 created: 2026-08-06
-updated: 2026-08-07
+updated: 2026-08-12
 ---
 
 # OCBC Data Acquisition — Delivery Tranche Roadmap
@@ -50,17 +51,18 @@ runnable, testable slice — starting from a fully-simulated Orchestrator (Tranc
 walking outward one real capability at a time (a real connector, then S3, then hardening,
 then more connectors, then the push path, then real scheduler/gateway/ops).
 
-## The six tranches
+## The tranches
 
 | Tranche | Scenario | Adds (entry → exit) | Component(s) | CS-xxx / DD IDs | Status (per source) |
 |---|---|---|---|---|---|
 | **1** | Request to simulated completion | Request → admission (dedupe / concurrency ceiling) → simulated task execution → cancel / resume / replay → two-phase transfer-complete callback (`TRANSFER` / `DECOMPRESSION`) → terminal state | Orchestrator only | CS-001, CS-015, CS-017, CS-020, CS-021, CS-022, CS-026, CS-027, CS-029, CS-037, CS-038, CS-040, CS-041, CS-053, CS-058 | ✅ Done — verified against the Orchestrator source |
 | **2** | Request to S3 (walking skeleton) | Same admission/dispatch, then a **Worker claims the task, executes one real connector, writes the file to mock/local S3 (LocalStack / MinIO) via the S3 API, reports completion**, and the run reaches a terminal state | Orchestrator **+ new Worker service** | CS-008 / CS-006–007 (first real connector) | ✅ Done (ahead of snapshot) — `worker-service` delivers the walking skeleton, proven by `WorkerExtractFlowIT` (see drift note below) |
-| **3** | Request to S3, but things go wrong | Same flow, **hardened**: transient Worker failure → retry with backoff; `batch_date` special values → resolved via anchor date; classify-and-promote runs as its own task | Orchestrator + Worker | CS-016 (retry), CS-060–CS-062 (business-date), CS-024 (classify+promote) | 🔲 Planned — **reduced scope** (CS-042 & CS-028 deferred, see 2026-08-07 decision note) |
+| **3** | Request to S3, but things go wrong | Same flow, **hardened**: transient Worker failure → retry with backoff; classify-and-promote runs as its own task | Orchestrator + Worker | CS-016 (retry), CS-024 (classify+promote) | ✅ Done — CS-016 (retry/backoff) and CS-024 (real Worker S3 raw→transfer-ready promotion) both delivered, full `mvn verify` green. **Business-date (CS-060–062) split out to Tranche 7 (2026-08-12)**; CS-042 & CS-028 deferred (2026-08-07) |
 | **4** | Every source, and a clean landing | Same flow, extended to the **remaining three connectors** (JDBC/Oracle, REST/FileNet, S3-compatible/ECS) plus **real decompression** execution | Worker service | Remaining Epic A connector stories (~17), CS-063–CS-064 (reduced scope), **CS-028 (outage-hold, deferred from T3 — trigger TBD)** | 🔲 Planned |
 | **5** | Caller pushes, not pull | Caller **pushes data synchronously** → admission control → direct S3 write → timeout handling | **New Sync Push Service** | CS-030–CS-036 | 🔲 Planned |
 | **6a** | Real scheduler, real gateway | The Tranche 2–4 flow, triggered by a **real Control-M contract** and authenticated via **real mTLS / Entra ID** instead of the API-key stand-in | **New Scheduler Job Adapter + new API Gateway** | CS-020, CS-037, CS-038 (hardening — no new IDs) | 🔲 Planned |
 | **6b** | Operator sees and reacts | Operator queries run state → resumes / replays a failed run → is alerted on SLA breach → quarantines poison batches | **New Operations Service** | CS-039, **CS-042 (quarantine, from T3)**, CS-043, CS-044–CS-050 | 🔲 Planned |
+| **7** | Business dates resolve themselves | `batch_date` special values (`CURRENT_DATE`, `PREVIOUS_MONTH_END_DATE`, …) → resolved to a concrete business date **at run initiation** using the system-wide **anchor date** + per-country **calendars**; anchor rolled forward by a scheduled Control-M job | Orchestrator (**`dal-calendar` library**) + Sync Push Service | CS-060, CS-061, CS-062 (Epic G) | 🔲 Planned — **final tranche** (split from T3, 2026-08-12) |
 
 ## What the tranche boundaries clarify
 
@@ -71,14 +73,13 @@ then more connectors, then the push path, then real scheduler/gateway/ops).
 - **Tranche 2 is specifically the Worker "walking skeleton"** — one real connector writing to
   real (mock/local) S3 — and is keyed to the *connector* stories CS-006/007/008, not the
   progression stories CS-021/022 that drive it.
-- The later tranches are cumulative hardening: **3** adds core durability (retry,
-  business-date resolution, real classify-and-promote); **4** adds the remaining connectors
-  and real decompression; **5** adds the synchronous push path; and **6a/6b** replace the
-  API-key and manual stand-ins with real scheduler/gateway auth and an operator-facing
-  Operations Service. Two Tranche-3 durability items were **deferred on 2026-08-07** for lack
-  of a firm design decision: **CS-042 (quarantine)** to Tranche 6b (Operations), and
-  **CS-028 (outage-hold)** to Tranche 4 (trigger mechanism still to be decided) — see the
-  decision note below.
+- The later tranches are cumulative hardening: **3** adds core durability (retry and real
+  classify-and-promote); **4** adds the remaining connectors and real decompression; **5** adds
+  the synchronous push path; **6a/6b** replace the API-key and manual stand-ins with real
+  scheduler/gateway auth and an operator-facing Operations Service; and **7** (final) adds
+  Epic G business-date resolution. Three Tranche-3 items were reassigned: **CS-060–062
+  (business-date)** to the new final **Tranche 7** (2026-08-12), **CS-042 (quarantine)** to
+  Tranche 6b, and **CS-028 (outage-hold)** to Tranche 4 (see the decision notes below).
 
 ## 2026-08-07 scope decision — Tranche 3 reduced
 
@@ -89,12 +90,26 @@ lacked one and were reassigned to later tranches (mirrored in the source
 - **CS-016 (retry/backoff), CS-024 (classify-and-promote), CS-060–CS-062 (business-date)** —
   **kept in Tranche 3**. CS-060–062 is now grounded by the archived `ocbc-data-acquisition-service`
   reference implementation (`AnchorDate` / `CountryCalendar` entities + `/anchor-date/roll-over`,
-  CS-061); only the special-value resolver is new build.
+  CS-061); only the special-value resolver is new build. *(Superseded 2026-08-12: CS-060–062 moved
+  out to the new final Tranche 7 — see the decision note below.)*
 - **CS-042 (quarantine)** → **Tranche 6b (Operations Service)**. No quarantine store/status is
   defined anywhere, and the Detailed Design already scopes quarantine to Operations.
 - **CS-028 (outage-hold)** → **Tranche 4 (provisional)**. The hold-at-checkpoint + backoff
   behaviour is described (D21), but the **outage-trigger mechanism is unspecified**; parked in
   the next durability tranche pending that decision.
+
+## 2026-08-12 scope decision — Epic G split into its own final tranche
+
+Business-date resolution (Epic G: **CS-060, CS-061, CS-062**) was **removed from Tranche 3** and
+made its **own, final tranche (Tranche 7)**. Rationale: it is an **orthogonal capability**
+(calendar-aware date resolution at run initiation), not part of Tranche 3's "things go wrong"
+durability theme, and it depends on loading each country's holiday **calendar data** — an
+operating-model / ownership follow-on that should not gate the retry / classify-and-promote
+hardening. **Tranche 3 is now just CS-016 (retry/backoff, delivered) and CS-024
+(classify-and-promote, delivered 2026-08-12).** Epic G's mechanism is fully specified (CS-060 token set, CS-061
+anchor date + Control-M roll-over, CS-062 per-country calendars) and grounded by the archived
+`ocbc-data-acquisition-service` reference implementation, so it carries no design risk — only
+the calendar-data ownership follow-on and the build itself remain.
 
 ## Drift note (source snapshot vs. current code)
 
