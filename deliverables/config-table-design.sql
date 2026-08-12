@@ -23,6 +23,14 @@
 -- (the reference lives on the source connection config, not here). A4 (retry) and A6
 -- (retention) never touch secrets; A3 (readiness) reuses the source's Conjur-resolved
 -- connection. See concepts/dal-security-authentication-and-secrets.md.
+--
+-- APPLICATION OWNERSHIP (questions.md, 2026-08-11): `application` (the owning tenant, aligning
+-- with the dacq-<env>-<app>-<tier> buckets) is an attribute of the PIPELINE (pipeline_config
+-- .application) and the SOURCE (source_registry.application) — NOT independently repeated on each
+-- config table. Retry (A4) uses a LAYERED model: a per-pipeline override table, an application-
+-- level default table keyed by `application`, and the orchestrator.retry.* env default; resolution
+-- is pipeline override -> application default -> env. Readiness (A3, per-pipeline) and retention
+-- (A6, per-source) keep their natural grain and inherit the parent's application via join.
 -- =====================================================================================
 
 
@@ -81,6 +89,29 @@ COMMENT ON COLUMN pipeline_readiness_config.poll_window_minutes      IS 'Give-up
 -- Deterministic exponential backoff, NO jitter: delay = min(cap, base * multiplier^attempt).
 -- transient -> retry to the configured limit + checkpoint resume; permanent -> fail;
 -- exhaustion -> run.fail() + alert (CS-043) + quarantine (CS-042).
+--
+-- LAYERED (questions.md 2026-08-11): resolution is per-pipeline override -> application default ->
+-- orchestrator.retry.* env default. The application-level default is application_retry_config
+-- (keyed by `application`); the per-pipeline override is keyed by pipeline_id and inherits the
+-- pipeline's own application (pipeline_config.application) — it does NOT repeat it.
+CREATE TABLE application_retry_config (
+    application          VARCHAR(64)   PRIMARY KEY,
+
+    base_delay_seconds   INTEGER       NOT NULL DEFAULT 5
+                                       CHECK (base_delay_seconds > 0),
+    multiplier           NUMERIC(4,2)  NOT NULL DEFAULT 2.0
+                                       CHECK (multiplier >= 1),
+    max_delay_seconds    INTEGER       NOT NULL DEFAULT 300
+                                       CHECK (max_delay_seconds >= base_delay_seconds),
+    max_attempts         INTEGER       NOT NULL DEFAULT 5
+                                       CHECK (max_attempts >= 1),
+
+    created_at           TIMESTAMPTZ   NOT NULL DEFAULT now(),
+    updated_at           TIMESTAMPTZ   NOT NULL DEFAULT now()
+);
+
+COMMENT ON TABLE application_retry_config IS 'A4/CS-016 application-level default retry schedule (layered: pipeline override -> this -> env).';
+
 CREATE TABLE pipeline_retry_config (
     pipeline_id          UUID          PRIMARY KEY
                                        REFERENCES pipeline_config (pipeline_id) ON DELETE CASCADE,
@@ -99,7 +130,7 @@ CREATE TABLE pipeline_retry_config (
     updated_at           TIMESTAMPTZ   NOT NULL DEFAULT now()
 );
 
-COMMENT ON TABLE pipeline_retry_config IS 'A4/CS-016 retry schedule (deterministic exponential, no jitter): delay = min(cap, base * multiplier^attempt).';
+COMMENT ON TABLE pipeline_retry_config IS 'A4/CS-016 per-pipeline retry override (deterministic exponential, no jitter); falls back to application_retry_config then env.';
 
 
 -- Global seed map: which error codes are TRANSIENT vs PERMANENT vs NEVER_RETRIED.

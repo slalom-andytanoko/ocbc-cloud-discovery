@@ -2,12 +2,17 @@
 title: Open Questions
 category: meta
 tags: [questions, tracking]
-updated: 2026-07-31
+updated: 2026-08-11
 cssclass: wide-page
+---
 
 # Open Questions
 
 Questions raised during discovery sessions that require follow-up or confirmation.
+
+> See also [[questions]] — the forward-looking consolidated register that pulls these
+> still-open items together with the implementation- and delivery-level questions that
+> block completing the Cloud Sync build.
 
 | # | Question | Domain | Raised | Owner | Status | Resolution |
 |---|----------|--------|--------|-------|--------|------------|

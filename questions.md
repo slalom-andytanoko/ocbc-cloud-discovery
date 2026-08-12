@@ -54,6 +54,14 @@ stories already settle the item — the recurring pattern is that the spec fixes
 what's left for most rows is a concrete value, a sign-off, or the build itself, **not** a design
 ruling.
 
+> **Application ownership & layered config (2026-08-11):** `application` (the owning tenant,
+> aligning with the `dacq-<env>-<app>-<tier>` buckets and the `target_tier` classify-and-promote
+> resolves) is an attribute of the **pipeline** (`pipeline_config.application`) and the **source**
+> (`source_registry.application`) — it is **not** independently repeated on each config table. Retry
+> (A4) uses a **layered** model: a per-pipeline override → an application-level default (a table
+> keyed by `application`) → the environment default. Readiness (A3, per-pipeline) and retention
+> (A6, per-source) keep their natural grain and inherit the parent's application via join.
+
 | # | Question | Owner | Blocks | Source | Spec coverage |
 |---|----------|-------|--------|--------|---------------|
 | A1 | ✅ **RESOLVED (2026-08-11)** — **SLA breach is a distinct terminal status.** Implemented per Detailed Design §6.1: `Run.breachSla()` transitions the run into the terminal `SLA_BREACH` status (reachable from any non-terminal state) with an `SLA_BREACHED` audit event; the earlier boolean flag (`Run.slaBreached`) was removed. This also closed the never-terminating never-ready run. | — | — | steering DD-B1 (Resolved) | ✅ CS-027 — terminal `SLA_BREACH` + alert |
@@ -179,9 +187,11 @@ table, with an env-default fallback):
 
 ### A4 — answered: config-table retry, no jitter (CS-016)
 
-**Answer (2026-08-11, DAL design owner).** The retry schedule lives **in the pipeline configuration
-table** (per-pipeline, env-default fallback), like A3's readiness config — and backoff is
-**deterministic exponential with no jitter**. The values below are the seed defaults for that table.
+**Answer (2026-08-11, DAL design owner).** The retry schedule is **layered**: a per-pipeline
+override → an **application-level default** (a table keyed by `application`) → the environment
+default (resolution stops at the first present). `application` is the pipeline's own attribute
+(`pipeline_config.application`), not repeated on the retry tables. Backoff is **deterministic
+exponential with no jitter**. The values below are the seed defaults.
 
 **Backoff** — exponential, **no jitter**, config-table driven: `delay = min(cap, base · 2^attempt)`:
 

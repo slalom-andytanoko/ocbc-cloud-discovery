@@ -2,7 +2,7 @@
 title: Wiki Index
 category: meta
 tags: [index, navigation]
-updated: 2026-08-07
+updated: 2026-08-11
 ---
 
 # Wiki Index
@@ -47,3 +47,8 @@ updated: 2026-08-07
 - [[reference/delivery-tranches-roadmap]] — authoritative six-tranche delivery-sequencing plan (Tranche 1 Orchestrator-only simulated = done; Tranche 2 Worker walking skeleton → S3 = next; 3–6 harden, add connectors/decompression, add push path, add real scheduler/gateway/ops), with the CS-xxx-per-tranche mapping
 
 ## Deliverables
+
+## Meta / Tracking
+
+- [[questions]] — consolidated "what's left to decide/answer to complete delivery" register: implementation design-owner rulings (A1–A9, incl. the config-table `application`-column convention), spec questions (Q-01–Q-12), stakeholder/operating-model questions, and infra blockers — cross-referencing [[deliverables/findings]], [[reference/cloud-sync-user-stories]], and the `ocbc-cloud-sync` steering register
+- [[open-questions]] — historical session-raised open-questions register (the stakeholder/operating-model source [[questions]] draws from)

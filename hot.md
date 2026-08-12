@@ -2,13 +2,14 @@
 title: Recent Activity
 category: meta
 tags: [activity, hot]
-updated: 2026-08-07
+updated: 2026-08-11
 ---
 
 # Recent Activity
 
 ## This Week
 
+- **Registered [[questions]] into the knowledge base** — the consolidated "what's left to decide/answer to complete delivery" register (implementation rulings A1–A9, spec Q-01–Q-12, stakeholder/operating-model, infra blockers) is now indexed under a new **Meta / Tracking** section in [[index]] and cross-linked from [[open-questions]] and [[synthesis/data-acquisition-open-decisions]] (it was previously only reachable from `docs/team-input.md`). Also added the **config-table `application`-column convention** to the A3/A4/A6 config schemas in [[questions]] (every per-pipeline config table must carry an `application` column, aligning with the `dacq-<env>-<app>-<tier>` buckets), and fixed [[open-questions]]'s unterminated frontmatter.
 - **Re-scoped Tranche 3** of the delivery roadmap and updated the source spreadsheet `.processed/20260806-Delivery-Tranches.xlsx` to match (+ a new "Change Log" sheet). Tranche 3 now covers only the firm workstreams — CS-016 (retry/backoff), CS-024 (classify-and-promote), CS-060–062 (business-date, grounded by the archived `ocbc-data-acquisition-service` `AnchorDate`/`CountryCalendar` reference impl). **CS-042 (quarantine)** deferred to Tranche 6b (Operations) and **CS-028 (outage-hold)** to Tranche 4 (trigger TBD), both for lack of a firm design decision. Also marked Tranche 2 Done. Synced [[reference/delivery-tranches-roadmap]] (table + prose + a dated decision note).
 - Ingested the fourth AI-reviewer (Kiro) code review of `ocbc-cloud-sync` (`external/code-review-findings-20260807-1.md`), dated 2026-08-07 — the connector-story pass (CS-006/007/008). Confirmed all 9 findings from the 2026-08-06 review ([[deliverables/findings]] #14) are resolved, then flagged 7 Required + 1 nit + 2 optional findings, most of them **accepted tranche-scope deferrals** (no S3 source connector/Parquet/business-date resolution yet, SLA breach kept as a flag not a status, API-key still a stand-in for Entra ID) rather than defects. Created [[reference/orchestration-service-code-review-20260807]] and added [[deliverables/findings]] #15. **The five actionable code fixes were implemented same-day** in `ocbc-cloud-sync` and verified via full reactor `mvn verify` (Testcontainers/Colima, JaCoCo/Spotless/Checkstyle/PMD green): permission-denied source reads now classify as `SOURCE_FILE_ACCESS_DENIED`/`PERMANENT`; the transfer-complete callback captures `bytes/files/datasync_execution_arn`; the rate-limit map now evicts stale windows; two missing `@DisplayName`s and a stale `UC-x` javadoc reference fixed. All ten findings (plus the three prior reviews) were then codified into a new steering register, `steering/design-decisions-and-guardrails.md`, pairing each with a recurrence guardrail and marking accepted deviations "do not re-flag". Archived the source to `.processed/`.
 
