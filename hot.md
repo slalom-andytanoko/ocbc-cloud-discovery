@@ -2,12 +2,14 @@
 title: Recent Activity
 category: meta
 tags: [activity, hot]
-updated: 2026-08-12
+updated: 2026-08-15
 ---
 
 # Recent Activity
 
 ## This Week
+
+- **CS-004 (JDBC/Oracle connector) implementation spec written.** Created [[reference/cs-004-jdbc-oracle-connector-implementation]] — the full implementation specification for the `OracleSourceConnector` in `ocbc-cloud-sync/worker-service`. Covers: `SourceConnector` contract, `OracleSourceConnector` core logic (bounded-memory streaming via `setFetchSize`, S3 multipart write, SHA-256 manifest, CS-019 byte ceiling), `HikariCP` per-source pool factory (DD-13), Worker wiring (`WorkerTaskExecutor` RELATIONAL branch), schema additions (`extract_query`, `max_connections`, `fetch_size`, `max_extract_bytes`), full unit + Testcontainers IT plan (`OracleExtractFlowIT` against `gvenzl/oracle-xe` + LocalStack), error classification map (TRANSIENT/PERMANENT per A4), and the CSV-interim accepted deviation pending Q-16 Parquet mapping sign-off (CS-008). Added [[deliverables/findings]] #17. Updated [[questions]] A8 to reflect CS-004 is now being built.
 
 - **CS-024 (Tranche 3) delivered in `ocbc-cloud-sync`.** `CLASSIFY_AND_PROMOTE` is now a real Worker task: it claims the task from the DB queue (`SKIP LOCKED`, same path as `EXTRACT`) and promotes the run's `raw/{pipeline}/{batchDate}/` objects to `transfer-ready/{pipeline}/{batchDate}/` via idempotent S3 server-side copies. New `S3Promoter`/`PromoteResult`, `WorkerTaskExecutor.executePromote`, `WorkerClaimLoop` type-routing; the orchestrator now leaves both `EXTRACT` and `CLASSIFY_AND_PROMOTE` PENDING for the worker. Full reactor `mvn verify` green (227 unit + ITs, incl. a new LocalStack promote IT). **Tranche 3 is now fully done** (CS-016 + CS-024). Marked ✅ Done in [[reference/delivery-tranches-roadmap]] and synced `ocbc-cloud-sync` design.md/README. Changes uncommitted (user directs commits).
 - **Re-scoped the delivery roadmap: business-date (Epic G, CS-060–062) split out of Tranche 3 into its own final Tranche 7.** Tranche 3 is now just CS-016 (retry/backoff — delivered) and CS-024 (classify-and-promote). Epic G is an orthogonal run-initiation capability (anchor date + per-country calendars) whose only remainders are calendar-data ownership and the build itself, so it need not gate the T3 durability hardening. Synced [[reference/delivery-tranches-roadmap]] (new Tranche 7 row + 2026-08-12 decision note), `ocbc-cloud-sync/design.md` tranche table, and [[questions]] A5.
