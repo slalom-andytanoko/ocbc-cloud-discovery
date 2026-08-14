@@ -37,6 +37,10 @@ summary: >
   LocalFileSourceConnector already enforces the size pre-check and S3Uploader streams via
   InputStream — constraint is satisfied and closed in T2. T4 connectors must meet the same
   acceptance criterion but do not re-open the story.
+  Updated 2026-08-15 (CS-071/CS-072 mapping): CS-071 (pre-computed special_value_date table)
+  and CS-072 (special values population batch job) added in user stories v1.0 (2026-08-13).
+  Both mapped to T7 — they are the table-lookup replacement for runtime Jollyday computation
+  and are inseparable from Epic G (CS-060–062).
 provenance:
   extracted: 0.9
   inferred: 0.1
@@ -44,7 +48,7 @@ provenance:
 base_confidence: 0.8
 lifecycle: draft
 created: 2026-08-06
-updated: 2026-08-15 (CS-019 moved T4→T2)
+updated: 2026-08-15 (CS-071/CS-072 mapped to T7)
 ---
 
 # OCBC Data Acquisition — Delivery Tranche Roadmap
@@ -75,7 +79,7 @@ then more connectors, then the push path, then real scheduler/gateway/ops).
 | **5** | Caller pushes, not pull | Caller **pushes data synchronously** → admission control → direct S3 write → timeout handling | **New Sync Push Service** | CS-030, CS-031, CS-032, CS-033, CS-034, CS-035, CS-036, **CS-056** (governance metadata consistency check — placeholder completed when Q-03 retention values resolved; T5 is the first tranche exercising the validation chain on a second mode) | 🔲 Planned |
 | **6a** | Real scheduler, real gateway | The Tranche 2–4 flow, triggered by a **real Control-M contract** and authenticated via **real mTLS / Entra ID** instead of the API-key stand-in | **New Scheduler Job Adapter + new API Gateway** | CS-020, CS-037, CS-038 (hardening — no new IDs), **CS-002** (credential vaulting via CyberArk/Conjur — same class of "replace the stand-in" work as the API-key → Entra ID swap) | 🔲 Planned |
 | **6b** | Operator sees and reacts | Operator queries run state → resumes / replays a failed run → is alerted on SLA breach → quarantines poison batches | **New Operations Service** | CS-039, **CS-042** (quarantine — deferred from T3 scope decision 2026-08-07), CS-043, CS-044, CS-045, CS-046, CS-047, CS-048, CS-049, CS-050, **CS-051** (read-only pipeline config view), **CS-052** (read-only run status/history view), **CS-059** (zone retention enforcement — blocked on Q-03 retention values; Operations Service owns housekeeping) | 🔲 Planned |
-| **7** | Business dates resolve themselves | `batch_date` special values (`CURRENT_DATE`, `PREVIOUS_MONTH_END_DATE`, …) → resolved to a concrete business date **at run initiation** using the system-wide **anchor date** + per-country **calendars**; anchor rolled forward by a scheduled Control-M job | Orchestrator (**`dal-calendar` library**) + Sync Push Service | CS-060, CS-061, CS-062 (Epic G) | 🔲 Planned — **final tranche** (split from T3, 2026-08-12) |
+| **7** | Business dates resolve themselves | `batch_date` special values (`CURRENT_DATE`, `PREVIOUS_MONTH_END_DATE`, …) → resolved to a concrete business date **at run initiation** using the system-wide **anchor date** + per-country **calendars**; anchor rolled forward by a scheduled Control-M job; special values pre-computed into `special_value_date` table by a batch job (Jollyday confined to batch only) | Orchestrator (**`dal-calendar` library**) + Sync Push Service | CS-060, CS-061, CS-062 (Epic G), **CS-071** (pre-computed `special_value_date` table — `dal-calendar` reads table not runtime computation), **CS-072** (special values population batch job — Jollyday confined here) | 🔲 Planned — **final tranche** (split from T3, 2026-08-12) |
 | **— deferred** | Schema change detection + data owner verification | Not in build scope for this phase; tracked in backlog | — | **CS-013** (schema change detection — BL-005; deferred 2026-07-29), **CS-057** (data owner verification — BL-006; deferred 2026-07-31, WARN-only when adopted) | ⏸ Deferred to backlog |
 
 ## What the tranche boundaries clarify
@@ -108,7 +112,8 @@ then more connectors, then the push path, then real scheduler/gateway/ops).
   classify-and-promote); **4** adds the remaining connectors, real decompression, and real
   validation; **5** adds the synchronous push path; **6a/6b** replace the API-key and manual
   stand-ins with real scheduler/gateway auth and an operator-facing Operations Service; and
-  **7** (final) adds Epic G business-date resolution. Three Tranche-3 items were reassigned:
+  **7** (final) adds Epic G business-date resolution (CS-060–062) and the pre-computed
+  special values table (CS-071/CS-072 — added in user stories v1.0, 2026-08-13). Three Tranche-3 items were reassigned:
   **CS-060–062 (business-date)** to the new final **Tranche 7** (2026-08-12), **CS-042
   (quarantine)** to Tranche 6b, and **CS-028 (outage-hold)** to Tranche 4 (see the decision
   notes below).

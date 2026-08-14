@@ -21,3 +21,4 @@ external/
 
 # Generated pack config (runtime artefact, not committed)
 _meta/active-pack-config/
+*.bak
